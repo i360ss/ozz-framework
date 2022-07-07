@@ -1,0 +1,15 @@
+<?php
+// Ozz CLI
+require 'vendor-out.php';
+require 'vendor/autoload.php';
+class Ozz {
+  
+  public function action($arg){
+    $env = parse_ini_file(__DIR__ . '/env.ini', true);
+    define('APP_ENV', $env['app']['APP_ENV']);
+    require 'vendor/ozz/core/src/system/ozz-commands.php';
+  }
+  
+}
+(new Ozz)->action($argv);
+?>

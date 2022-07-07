@@ -1,0 +1,24 @@
+<?php
+$data = new Ozz\app\controller\Page404;
+$data = $data->content();
+$title2 = [
+  'name' => 'Shakir'
+];
+?>
+
+{{ title = "404 Not found" }}
+{{ keywords = "Not Found" }}
+{{ description = "This is a string" }}
+{{ bodyClass = "page-404" }}
+
+{{ content }}
+  <section>
+    <div clas="container">
+      <h1>404</h1>
+      <h4>Page Not Found</h4>
+      <a href="<?=$data['redirect_link']['url']?>/shakir">
+        <?=$data['redirect_link']['title']?>
+      </a>
+    </div>
+  </section>
+{{ content-end }}

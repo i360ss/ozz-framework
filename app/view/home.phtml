@@ -1,0 +1,24 @@
+{{ title:: data.0 }}
+
+{{ content }}
+<h2>
+<?php
+    // _random_str(6, 'int');
+    // $str = 'my name is my username is my456ismypopois';
+    // dump(str_between_all($str, 'my', 'is'));
+
+    $user['names'] = ['fname' => 'John', 'lname' => 'Doe', 'Mariya'];
+    $user['ages'] = [26, 30, 28];
+
+?>
+</h2>
+
+<div class="container">
+    {: c-user | user.ages :}
+    {: c-user | user.names :}
+</div>
+{{ content-end }}
+
+{{ customJS }}
+<script nonce="<?=CSP_NONCE?>"> let data = <?= $data_json ?>; </script>
+{{ customJS-end }}

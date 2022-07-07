@@ -1,0 +1,38 @@
+# Disable directory browsing 
+Options -Indexes
+
+RewriteEngine on
+
+# Remove (.php .html) file extensions
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+# Deny access to .htaccess
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Deny access to filenames starting with dot(.)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+
+php_value upload_max_filesize 20M
+php_value post_max_size 20M
+php_value max_input_time 300
+php_value max_execution_time 300
+
+ServerSignature Off

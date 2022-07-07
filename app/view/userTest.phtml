@@ -1,0 +1,18 @@
+<?php
+/**
+ * View Name: userTest
+ * Path: view/userTest
+ * 
+ * @param array $data argumets passed from controller
+ * 
+ */
+?>
+{{ title:: "page title here" }}
+{{ keywords:: "meta keywords here" }}
+{{ description:: "meta description here" }}
+{{ bodyClass:: "body classes here" }}
+
+{{ content }}
+  <h1>User Account</h1>
+  <h3><?= $data['username'] ?></h3>
+{{ content-end }}
