@@ -2,8 +2,16 @@
     "name": "ozz/framework",
     "description": "Ozz Micro Framework",
     "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shakir",
+            "email": "shakeerwahid@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
     "require": {
-        "ozz/core": "^0.1.0",
+        "ozz/core": "^0.1.1",
         "catfan/medoo": "^2.1",
         "phpmailer/phpmailer": "^6.6",
         "dompdf/dompdf": "^2.0",
@@ -14,12 +22,9 @@
     "require-dev": {
         "symfony/var-dumper": "^6.0"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Shakir",
-            "email": "shakeerwahid@gmail.com"
+    "autoload": {
+        "psr-4": {
+            "Ozz\\app\\": "app/"
         }
-    ],
-    "minimum-stability": "stable"
+    }
 }
