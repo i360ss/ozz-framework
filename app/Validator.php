@@ -1,5 +1,5 @@
 <?php
-namespace Ozz\app;
+namespace App;
 
 class Validator {
   

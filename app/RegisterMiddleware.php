@@ -1,7 +1,7 @@
 <?php
-namespace Ozz\app;
+namespace App;
 
-use Ozz\app\middleware\AuthMiddleware;
+use App\middleware\AuthMiddleware;
 
 class RegisterMiddleware {
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6501462f43ab76aa7856eacc5ee91b1e",
+    "content-hash": "930ab20522040cf7c99525dfb6117d75",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -477,16 +477,16 @@
         },
         {
             "name": "ozz/core",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/i360ss/ozz-core.git",
-                "reference": "4117b8fb08695370217f6d0eb75b3b3cff146b71"
+                "reference": "9b012b8b86ad39d92da5a58896a4f071989ef14c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/i360ss/ozz-core/zipball/4117b8fb08695370217f6d0eb75b3b3cff146b71",
-                "reference": "4117b8fb08695370217f6d0eb75b3b3cff146b71",
+                "url": "https://api.github.com/repos/i360ss/ozz-core/zipball/9b012b8b86ad39d92da5a58896a4f071989ef14c",
+                "reference": "9b012b8b86ad39d92da5a58896a4f071989ef14c",
                 "shasum": ""
             },
             "type": "library",
@@ -508,9 +508,9 @@
             "description": "Core of the Ozz Micro Framework",
             "support": {
                 "issues": "https://github.com/i360ss/ozz-core/issues",
-                "source": "https://github.com/i360ss/ozz-core/tree/v0.1.0"
+                "source": "https://github.com/i360ss/ozz-core/tree/v0.1.1"
             },
-            "time": "2022-07-07T17:32:32+00:00"
+            "time": "2022-07-07T19:25:45+00:00"
         },
         {
             "name": "phenx/php-font-lib",

@@ -1,5 +1,5 @@
 <?php
-namespace Ozz\app\controller;
+namespace App\controller;
 
 use Ozz\Core\Help;
 use Ozz\Core\Request;

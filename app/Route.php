@@ -1,9 +1,9 @@
 <?php
 use Ozz\Core\Router;
 use Ozz\Core\Request;
-use Ozz\app\controller\FileController;
-use Ozz\app\controller\HomeController;
-use Ozz\app\controller\UserTest;
+use App\controller\FileController;
+use App\controller\HomeController;
+use App\controller\UserTest;
 
 // Router::get('/', function(Request $request){
 //   dump($request->all());

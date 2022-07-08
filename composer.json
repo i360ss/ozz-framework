@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ozz\\app\\": "app/"
+            "App\\": "app/"
         }
     }
 }

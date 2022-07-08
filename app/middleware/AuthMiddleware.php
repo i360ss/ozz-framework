@@ -1,5 +1,5 @@
 <?php
-namespace Ozz\app\middleware;
+namespace App\middleware;
 
 class AuthMiddleware {
 

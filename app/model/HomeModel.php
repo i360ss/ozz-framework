@@ -1,5 +1,5 @@
 <?php
-namespace Ozz\app\model;
+namespace App\model;
 
 use Ozz\Core\Auth;
 use Ozz\Core\Database;

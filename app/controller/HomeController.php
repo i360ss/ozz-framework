@@ -1,11 +1,11 @@
 <?php
-namespace Ozz\app\controller;
+namespace App\controller;
 
 use Ozz\Core\Help;
 use Ozz\Core\Request;
 use Ozz\Core\Router;
 
-use Ozz\app\model\HomeModel;
+use App\model\HomeModel;
 
 class HomeController extends HomeModel {
 
