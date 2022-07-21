@@ -12,9 +12,7 @@ class HomeController extends HomeModel {
   public function index(Request $request){
 
     $name = $request->urlParam('name');
-    $data = new HomeModel;
-    
-    $data = $data->getUser($name);
+    $data = $this->getUser($name);
     $data['str'] = "<a href='test'>test@gmail.com</a> <a href=`test`>test@gmail.com</a>";
     // $data['str'] = "Test";
     // $data['str'] = "user/test. com?user=456#";

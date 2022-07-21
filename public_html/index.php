@@ -1,5 +1,4 @@
 <?php
-require __DIR__.'/../vendor-out.php';
 require __DIR__.'/../vendor/autoload.php';
 
 use Ozz\Core\Appinit;
