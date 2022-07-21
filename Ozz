@@ -1,6 +1,5 @@
 <?php
 // Ozz CLI
-require 'vendor-out.php';
 require 'vendor/autoload.php';
 
 define('SPC_BACK', [
