@@ -67,7 +67,7 @@ class FileController {
      * ARRAY => Max size & Allowed formats (should be Array ['max Size', 'jpg|png|jpeg'])
      * STRING => Only allowed extentions ('jpg|png|jpeg')
      */
-    $upload = File::upload('image', $files, '/', null, ['5M', 'jpg|png|jpeg']);
+    $upload = File::upload('image', $files, 'thumb/', null, ['5M', 'jpg|png|jpeg|webp']);
 
 
     dump($upload);
