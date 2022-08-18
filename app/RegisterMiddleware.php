@@ -1,30 +1,24 @@
 <?php
-namespace App;
+/**
+ * REGISTER MIDDLEWARES
+ * 
+ * You should register all your middlewares here to load
+ * $route_middlewares --> This should be called from route to excecute
+ * $auto_middlewares  --> This will excecute automatically on all requests
+ * 
+ */
+
 
 use App\middleware\AuthMiddleware;
 
-class RegisterMiddleware {
 
-    # -------------------------------------------
-    // Thise Middlewares will load only when called
-    # -------------------------------------------
-    public static function routeMiddleware(){
-        return $middlewares = [
+$route_middlewares = [
+  'auth' => AuthMiddleware::class,
 
-            'auth' => AuthMiddleware::class,
-
-        ];
-    }
+];
 
 
-    # -------------------------------------------
-    // Thise Middlewares will load on all requests
-    # -------------------------------------------
-    public static function autoMiddleware(){
-        return $middlewares = [
-            
-            
+$auto_middlewares = [
+  'test'
 
-        ];
-    }
-}
+];

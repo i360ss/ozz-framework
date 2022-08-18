@@ -7,14 +7,8 @@
 
 {{ content }}
 <div class="container">
-    <!-- {: c-user | user.ages :}
-    {: c-user | user.names :} -->
-
-    <?php dump( errors() ); ?>
-
-    <?php if (has_error('username')) : ?>
-        <h3><?=get_error('username')?></h3>
-    <?php endif; ?>
+    {: c-user | user.ages :}
+    {: c-user | user.names :}
 </div>
 {{ content-end }}
 

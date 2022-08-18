@@ -4,6 +4,7 @@ use Ozz\Core\Request;
 use App\controller\FileController;
 use App\controller\HomeController;
 use App\controller\UserTest;
+use App\controller\ErrorTest;
 
 // Router::get('/', function(Request $request){
 //   dump($request->all());
@@ -31,6 +32,10 @@ Router::post('/file', [FileController::class, 'uploadFile'], ['auth'], 'base/lay
 
 Router::get('/test', 'test', 'base/layout', ['auth']);
 Router::get('/shakir', 'shakir', 'base/layout', ['auth']);
+
+Router::get('/form', [ErrorTest::class, 'index'], 'base/base-layout', ['auth']);
+Router::post('/form', [ErrorTest::class, 'getForm'], ['auth']);
+
 
 // Router::postGroup(['auth'], [
 //   '/file' => [FileController::class, 'uploadFile'],
