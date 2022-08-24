@@ -14,5 +14,7 @@ require __DIR__.'/../app/Error.php';
 
 Middleware::execute();
 $APP->run();
-DEBUG ? $DEBUG_BAR->show() : false;
+
+(DEBUG && SHOW_DEBUG_BAR) ? $DEBUG_BAR->show() : false;
+
 ?>
