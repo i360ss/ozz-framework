@@ -13,6 +13,13 @@ class HomeController extends HomeModel {
 
     $name = $request->urlParam('name');
     $data = $this->getUser($name);
+
+    console_log('test', 'i');
+    console_log('Message log test', 'w');
+    console_log('Message log 12', 'e');
+
+    console_log($data);
+    
     
     return view('home', $data);
   }
