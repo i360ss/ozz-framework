@@ -60,14 +60,12 @@ function ozz_content_Middleware($data){
  */
 function ozz_content_Model($data){
   extract($data);
+  $table = '$table';
   return "<?php\nnamespace $namespace;
-\nuse Ozz\Core\\Auth;
-use Ozz\Core\Database;
-\nclass ".ucwords($class)." extends Database {
+\nuse Ozz\Core\Model;
+\nclass ".ucwords($class)." extends Model {
 
-  protected function index(){
-    \$content = \$this->DB->select();
-  }
+  protected $table = '".strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $class))."';
 
 }";
 }
@@ -102,7 +100,7 @@ function ozz_content_ViewContent($data){
  * View Name: '.$name.'
  * Path: '.$path.'
  * 
- * @param array $data argumets passed from controller
+ * @param array $data arguments passed from controller
  * 
  */
 ?>
@@ -130,7 +128,7 @@ function ozz_content_EmailTemplate() {
   <meta name="x-apple-disable-message-reformatting">
   <title></title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    body { font-family: sans-serif; margin: 0; padding: 0; }
   </style>
 </head>
 <body>
