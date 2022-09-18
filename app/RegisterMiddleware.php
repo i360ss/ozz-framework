@@ -5,16 +5,12 @@
  */
 
 
-use App\middleware\AuthMiddleware;
-use App\middleware\Test;
-
 
 /**
  * This will execute automatically on all requests
  */
 $auto_middlewares = [
-  'Test' => Test::class,
-
+  
 ];
 
 
@@ -22,6 +18,5 @@ $auto_middlewares = [
  * This should be called from route to execute
  */
 $route_middlewares = [
-  'auth' => AuthMiddleware::class,
   
 ];
