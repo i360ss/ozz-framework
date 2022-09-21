@@ -8,9 +8,11 @@
     <div class="greeting">
         <div class="inner">
             <h1><?=$data['greeting']?></h1>
-            <h4>A Simplest and Light-weight micro framework for PHP</h4>
+            <h4><?=$data['caption']?></h4>
             <div>
-                <a href="#"><button>Documentation</button></a>
+                <a href="<?=$data['button']['link']?>" class="button">
+                    <?=$data['button']['text']?>
+                </a>
             </div>
         </div>
     </div>

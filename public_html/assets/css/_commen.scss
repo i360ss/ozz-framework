@@ -1,11 +1,11 @@
 :root {
-  --dark1: #1e1e1e;
-  --dark2: #212121;
-  --dark3: #333;
-  --dark4: #2d2d2d;
-  --red: #e20000;
-  --org: #f8c555;
-  --green: #88bf3d; //#7ec699;
+    --dark1: #1e1e1e;
+    --dark2: #212121;
+    --dark3: #333;
+    --dark4: #2d2d2d;
+    --red: #e20000;
+    --org: #f8c555;
+    --green: #88bf3d; //#7ec699;
 }
 *{
     text-decoration: none;
@@ -16,9 +16,9 @@ body{
     padding: 0;
     background-color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-button{
+.button{
+    display: inline-block;
     padding: 10px 15px;
     font-size: 16px;
     border: none;
