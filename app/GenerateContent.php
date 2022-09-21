@@ -79,9 +79,9 @@ function ozz_content_Model($data){
 function ozz_content_Controller($data){
   extract($data);
   return "<?php\nnamespace $namespace;
-\nuse Ozz\Core\Help;
+\nuse Ozz\Core\Controller;
 use Ozz\Core\Request;
-\nclass ".ucwords($class)." {\n
+\nclass ".ucwords($class)." extends Controller {\n
   public function index(){\n    \n    
   }\n
 }";
