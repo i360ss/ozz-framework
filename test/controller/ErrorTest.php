@@ -1,7 +1,6 @@
 <?php
 namespace App\controller;
 
-use Ozz\Core\Help;
 use Ozz\Core\Request;
 use Ozz\Core\Router;
 
@@ -11,8 +10,8 @@ class ErrorTest {
 
   function __construct() {
     $this->d = [
-      Help::isPost(),
-      Help::getPath(),
+      Request::isPost(),
+      Request::getPath(),
     ];
   }
 
