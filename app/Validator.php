@@ -34,7 +34,7 @@ class Validator {
   // Define all allowable file extensions
   /*
   * 1st value is the max size of uploading file (use M for megabyte, K for kilobyte)
-  * 2nd value is valid extensions. Seperate all valid extensions by "|"
+  * 2nd value is valid extensions. Separate all valid extensions by "|"
   * Please make sure all file formats are defined in lowercase
   */
   # --------------------------------------------------
