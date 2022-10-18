@@ -1,0 +1,27 @@
+<?php
+/**
+ * View Name: blog
+ * Path: view/blog
+ * 
+ * @param array $data arguments passed from controller
+ * 
+ */
+?>
+
+{{ content }}
+<?php //dump($data) ?>
+<form action="/blog/test-validation" method="post" enctype="multipart/form-data">
+  <input type="text" name="name">
+  <input type="password" name="password">
+  <input type="password" name="match_pass">
+  <input type="email" name="email">
+  <input type="file" name="file1" id="file1">
+  <input type="submit" value="Send">
+</form>
+
+<div class="error">
+  <?php if(has_error('email')) : ?>
+    <p style="color:red;"><?=get_error('email')?></p>
+  <?php endif; ?>
+</div>
+{{ content-end }}

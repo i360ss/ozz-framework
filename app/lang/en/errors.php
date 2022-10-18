@@ -5,29 +5,42 @@ return [
    * All your application's translatable error messages should be here
    */
 
-  'required' => 'Field :: cannot be empty',
-  'username' => 'Cannot find a user with provided username/email',
-  'password' => 'Invalid Password',
-  'password_failed' => 'These credentials do not match our records',
-  'password_need_special_characters' => '',
-  'password_need_numbers' => '',
-  'password_need_letters' => '',
-  'invalid_reset_token' => 'Invalid password reset token',
-  'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+  'required' => 'Field (:field) cannot be empty',
+  'boolean' => '(:value) is not a Boolean value',
+  'text' => 'Field (:field) should contain only letters',
   'email' => 'Invalid Email Address',
+  'number' => '(:value) is not a Number',
   'string' => 'Invalid String',
-  'number' => 'Invalid Number',
+  'url' => 'Invalid URL',
   'integer' => 'Invalid Integer',
-  'bool' => 'Invalid Boolean value',
-  'float' => 'Field :attr should be a float value',
-  'max' => ':attr should not exceed :max characters',
-  'min' => ':attr should contain at least :min characters',
-  'match' => ':attr Not matching with :match',
+  'float' => 'Field (:field) should be a float value',
+  'max' => 'Field (:field) should not exceed :max characters',
+  'min' => 'Field (:field) should contain at least :min characters',
+  'match' => 'Field (:field) Not matching with field (:key)',
+  'invalid_array_key' => 'Invalid array key provided',
+
+  // Password Errors
+  'normal_password' => 'Spaces are not allowed in password!',
+  'strong_password_special_character' => 'Password should contain at least one special character!',
+  'strong_password_numbers' => 'Password should contain at least one number!',
+  'strong_password_uppercase' => 'Password should contain at least one uppercase letter!',
+  'strong_password_lowercase' => 'Password should contain at least one lowercase letter!',
+  'strong_password_character_length' => 'Password should contain at least :min characters!',
+  
+  // File Errors
   'file_error' => 'Error on uploading your file',
   'file_required' => 'No files selected to upload',
   'file_too_large' => 'The file you are trying to upload is too large',
   'file_invalid_format' => 'The file format will not support',
   'file_already_exist' => 'The file you are trying to upload is already exist',
-  'invalid_array_key' => 'Invalid array key provided',
+
+  // Auth Errors
+  'registration_failed' => 'Registration failed!',
+  'email_already_exist' => 'The email address already used. please login to your account or try with another email',
+  'account_disabled' => 'Your account was disabled',
+  'username' => 'Cannot find a user with provided :attr', // :attr = username/email <-- Have to do this
+  'password' => 'These credentials do not match our records',
+  'invalid_reset_token' => 'Invalid password reset token',
+  'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

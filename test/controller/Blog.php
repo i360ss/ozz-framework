@@ -30,8 +30,10 @@ class Blog extends Controller {
   public function testValidation(Request $req){
 
     $validate = Validate::check($req->input(), [
-      'name' => 'txt|max:3',
-      'email_addr' => 'email|max:2|bool'
+      'name' => 'req|text|max:10|min:3',
+      'password' => 'strong_password:8',
+      'match_pass' => 'match:{name}',
+      'email' => 'req|email'
     ]);
 
     dump($validate);
