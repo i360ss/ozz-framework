@@ -5,9 +5,11 @@ return [
    * All your application's translatable error messages should be here
    */
 
-  'required' => 'Field (:field) cannot be empty',
+  'required' => 'Please provide a valid :field',
   'boolean' => '(:value) is not a Boolean value',
   'text' => 'Field (:field) should contain only letters',
+  'alpha_num' => 'Field :field should contain only letter letters and numbers characters',
+  'safe_text' => 'Field (:field) contain invalid characters',
   'email' => 'Invalid Email Address',
   'number' => '(:value) is not a Number',
   'string' => 'Invalid String',
@@ -38,8 +40,8 @@ return [
   'registration_failed' => 'Registration failed!',
   'email_already_exist' => 'The email address already used. please login to your account or try with another email',
   'account_disabled' => 'Your account was disabled',
-  'username' => 'Cannot find a user with provided :attr', // :attr = username/email <-- Have to do this
-  'password' => 'These credentials do not match our records',
+  'invalid_username' => 'Cannot find a user with provided credentials',
+  'invalid_password' => 'Cannot find a user with provided credentials',
   'invalid_reset_token' => 'Invalid password reset token',
   'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
