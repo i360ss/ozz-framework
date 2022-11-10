@@ -104,13 +104,13 @@ function ozz_content_ViewContent($data){
  * 
  */
 ?>
-{{ title:: "page title here" }}
-{{ keywords:: "meta keywords here" }}
-{{ description:: "meta description here" }}
-{{ bodyClass:: "body classes here" }}
+{{ title        = "page_title_here" }}
+{{ keywords     = "meta_keywords_here" }}
+{{ description  = "meta_description_here" }}
+{{ bodyClass    = "body_classes_here" }}
 
 {{ content }}
-  <!-- Page Content goes here -->
+  <!-- Page Content should be here -->
 {{ content-end }}';
 }
 

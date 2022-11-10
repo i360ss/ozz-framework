@@ -1,20 +1,18 @@
-{{ title:: "Welcome to <?=APP_NAME?>" }}
-{{ keywords:: "test" }}
-{{ description:: "title.name" }}
-{{ bodyClass:: "body classes here" }}
+{{ title        = "Welcome to <?=APP_NAME?>" }}
+{{ keywords     = "meta_keywords" }}
+{{ description  = "meta_description" }}
+{{ bodyClass    = "body_classes_for_current_view" }}
 
 {{ content }}
-<div class="container">
-    <div class="greeting">
-        <div class="inner">
-            <h1><?=$data['greeting']?></h1>
-            <h4><?=$data['caption']?></h4>
-            <div>
-                <a href="<?=$data['button']['link']?>" class="button">
-                    <?=$data['button']['text']?>
-                </a>
-            </div>
-        </div>
+<section class="container">
+  <div class="greeting">
+    <div class="inner">
+      <h1><?=$data['greeting']?></h1>
+      <h4><?=$data['caption']?></h4>
+      <a href="<?=$data['button']['link']?>" class="button">
+        <?=$data['button']['text']?>
+      </a>
     </div>
-</div>
+  </div>
+</section>
 {{ content-end }}

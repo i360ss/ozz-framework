@@ -12,5 +12,14 @@ Router::get('/', function(){
     ]
   ];
   
-  return view('welcome', $data);
+  view('welcome', $data);
+});
+
+Router::get('/api', function(){
+  $data = [
+    'name' => 'John Doe',
+    'age' => 26
+  ];
+  
+  json($data);
 });

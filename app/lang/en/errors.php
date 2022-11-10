@@ -11,6 +11,7 @@ return [
   'alpha_num' => 'Field :field should contain only letter letters and numbers characters',
   'safe_text' => 'Field (:field) contain invalid characters',
   'email' => 'Invalid Email Address',
+  'phone' => 'Invalid Phone Number',
   'number' => '(:value) is not a Number',
   'string' => 'Invalid String',
   'url' => 'Invalid URL',

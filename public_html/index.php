@@ -10,7 +10,6 @@ $APP = new AppInit();
 
 require __DIR__.'/../app/Roles.php';
 require __DIR__.'/../app/Route.php';
-require __DIR__.'/../app/Error.php';
 
 Middleware::execute();
 $APP->run();
