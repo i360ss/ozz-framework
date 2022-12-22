@@ -31,11 +31,17 @@ return [
   'strong_password_character_length' => 'Password should contain at least :min characters!',
   
   // File Errors
-  'file_error' => 'Error on uploading your file',
   'file_required' => 'No files selected to upload',
+  'file_max_count' => 'Too many Files selected to upload',
+  'file_error' => 'Error on uploading your file',
   'file_too_large' => 'The file you are trying to upload is too large',
+  'file_too_small' => 'The file you are trying to upload is too small',
   'file_invalid_format' => 'The file format will not support',
   'file_already_exist' => 'The file you are trying to upload is already exist',
+
+  // Image
+  'image_high_res' => 'Image width and/or height is too large',
+  'image_low_res' => 'Image width and/or height is too small',
 
   // Auth Errors
   'registration_failed' => 'Registration failed!',
