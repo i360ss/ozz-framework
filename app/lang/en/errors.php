@@ -5,7 +5,7 @@ return [
    * All your application's translatable error messages should be here
    */
 
-  'required' => 'Please provide a valid :field',
+  'required' => 'This field is required',
   'boolean' => '(:value) is not a Boolean value',
   'text' => 'Field (:field) should contain only letters',
   'alpha_num' => 'Field :field should contain only letter letters and numbers characters',
@@ -45,10 +45,11 @@ return [
 
   // Auth Errors
   'registration_failed' => 'Registration failed!',
-  'email_already_exist' => 'The email address already used. please login to your account or try with another email',
+  'email_already_exist' => 'Email address is already registered. Please login to your account or try with another email',
   'account_disabled' => 'Your account was disabled',
-  'invalid_username' => 'Cannot find a user with provided credentials',
-  'invalid_password' => 'Cannot find a user with provided credentials',
+  'login_failed' => 'Login failed',
+  'invalid_username' => 'Cannot find a user with provided username or email',
+  'invalid_password' => 'Invalid Password',
   'invalid_reset_token' => 'Invalid password reset token',
   'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 

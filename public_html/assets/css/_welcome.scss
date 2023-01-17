@@ -1,0 +1,31 @@
+/* ----------WELCOME ----------- */
+.welcome{
+  position: relative;
+  .inner{
+    margin-top: 15%;
+    text-align: center;
+    padding: 60px;
+    img{
+      width: 150px;
+      margin: 0;
+    }
+    h1{
+      font-size: 62px;
+      color: var(--dark3);
+      font-weight: 200;
+      line-height: 62px;
+      margin: 0;
+      padding: 0;
+      span{
+        color: var(--green);
+        font-weight: 700;
+      }
+    }
+    h4{
+      font-size: 22px;
+      color: rgba(0,0,0,0.5);
+      font-weight: normal;
+      line-height: 32px;
+    }
+  }
+}

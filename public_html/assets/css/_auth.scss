@@ -1,0 +1,39 @@
+/* ----------AUTH ----------- */
+body {
+  &.auth {
+    background: var(--light1);
+
+    .verify-account {
+      text-align: center;
+      margin-top: 80px;
+    }
+  }
+
+  .off-bottom-link {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    p,
+    span {
+      font-size: 14px;
+      color: var(--gray1);
+    }
+  }
+}
+.auth-comp {
+  max-width: 430px;
+  margin-top: 6%;
+  padding: 48px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px 0 rgba(0,60,0,0.06);
+  border: 1px solid #e3e9e4;
+  background: var(--white);
+  @media screen and (max-width: 768px) {
+    padding: 36px 0;
+  }
+
+  .bottom-links {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+}
