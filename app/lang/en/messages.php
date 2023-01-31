@@ -17,5 +17,7 @@ return [
   'email_verification_title' => 'Verify Your Email Address!',
   'email_verification_subject' => 'Email Verification - '.APP_NAME,
   'email_verification_button_label' => 'Verify Your Email',
+  'new_login_alert_mail_title' => 'Login from a new :what',
+  'new_login_alert_mail_message' => 'We found a login from new :what. :info Ignore the message if it was you.',
 
 ];
