@@ -1,4 +1,15 @@
 /* ----------LAYOUT ----------- */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  min-height: calc(100vh - 214px);
+}
+
 .page-container{
   margin-top: 80px;
 }

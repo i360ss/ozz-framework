@@ -10,7 +10,8 @@ return [
   'file_upload_success' => 'File Uploaded successfully!',
   
   // Auth related messages
-  'signup_success' => 'You have signed up Successfully! Please check your email to verify your account',
+  'signup_success' => 'You have signed up Successfully! <a href="/login">Login</a> to your account',
+  'signup_success_pending_verification' => 'You have signed up Successfully! Please check your email to verify your account',
   'login_success' => 'You are logged in successfully!',
   'password_changed' => 'Your password has been changed',
   'reset_link_sent' => 'We have emailed your password reset link',

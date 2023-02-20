@@ -1,22 +1,17 @@
 <?php
 /**
- * REGISTER MIDDLEWARES
- * You should register all your middlewares here to load
- */
-
-
-
-/**
+ * REGISTER MIDDLEWARE
  * This will execute automatically on all requests
  */
-$auto_middlewares = [
+$auto_middleware = [
   
 ];
+
 
 
 /**
  * This should be called from route to execute
  */
-$route_middlewares = [
-  
+$route_middleware = [
+  'auth' => App\middleware\AuthMiddleware::class,
 ];

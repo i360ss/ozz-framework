@@ -48,12 +48,11 @@ return [
   'email_already_exist' => 'Email address is already registered. Please login to your account or try with another email',
   'username_already_exist' => 'Username already exist!',
   'unverified_account' => 'Please verify your email before login',
-  'account_blocked' => 'Your account is blocked! Please check your email for instructions',
+  'account_locked' => 'Your account is locked! Please contact support team',
+  'account_locked_throttle' => 'Account locked! Please try again after :time or <a href="/forgot-password"><strong>reset your password</strong></a>',
   'login_failed' => 'Login failed',
   'invalid_username' => 'Cannot find a user with provided username or email',
   'invalid_password' => 'Invalid Password',
   'invalid_reset_token' => 'Invalid password reset token',
-  'throttle_reset' => 'We found too many wrong login attempts! We\'ve sent you a password reset link. Please follow the instructions in the mail to reset your password',
-  'throttle_delay' => 'We found too many wrong login attempts! Please try after :time'
 
 ];
