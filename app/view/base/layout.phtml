@@ -12,13 +12,13 @@
 </head>
 <body class="{% bodyClass %}">
 
-  <?php _component('header'); ?>
+  <?=component('header')?>
 
   <main>
     {% content %}
   </main>
 
-  <?php _component('footer'); ?>
+  <?=component('footer')?>
 
 <script nonce="<?=CSP_NONCE?>" src="<?=JS?>app.js"></script>
 </body>

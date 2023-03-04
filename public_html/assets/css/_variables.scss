@@ -1,0 +1,45 @@
+/* ---------- VARIABLES ----------- */
+// Font
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');
+  font-display: swap;
+  font-weight: 300 700;
+}
+
+$space: 'Space Grotesk', sans-serif;
+
+// Font sizes
+$font-small: 12px;
+$font-normal: 16px;
+$font-semi-normal: 18px;
+$font-medium: 26px;
+$font-semi-medium: 42px;
+$font-larger: 62px;
+
+// Colors
+$colors: (
+  primary: #666EE8,
+  secondary: #212121,
+  primary-dark: #555ed3,
+  light1: #eeeff8,
+  danger: #b41010,
+  warning: #ee8f00,
+  blue: #4797ff,
+  darkBlue: #006ace,
+  lightGreen: #ccffd3,
+  success: #39B54A,
+  white: #ffffff,
+  gray1: #888888,
+  red: #e20000,
+  org: #ee8f00,
+);
+
+// Shadows
+$shadow1: 0 1px 3px rgba(0,0,0,0.1);
+$shadow2: 0 3px 6px 0 rgba(0,0,100,0.05);
+
+// Functions
+@function color($color)  {
+  @return map-get($colors, $color);
+}

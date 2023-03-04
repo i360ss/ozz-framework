@@ -19,7 +19,7 @@ return [
   'float' => 'Field (:field) should be a float value',
   'max' => 'Field (:field) should not exceed :max characters',
   'min' => 'Field (:field) should contain at least :min characters',
-  'match' => 'Field (:field) Not matching with field (:key)',
+  'match' => 'Password not matching',
   'invalid_array_key' => 'Invalid array key provided',
 
   // Password Errors
@@ -54,5 +54,10 @@ return [
   'invalid_username' => 'Cannot find a user with provided username or email',
   'invalid_password' => 'Invalid Password',
   'invalid_reset_token' => 'Invalid password reset token',
+  'expired_reset_token' => 'The password reset link is expired',
+  'password_change_error' => 'Error on resetting your password',
+  'password_reset_throttle' => 'You have exceeded the number of reset attempts. Please try again in :time',
+  'password_reset_mail_error' => 'Error on sending your password reset link. Please try again later',
+  'email_verification_mail_error' => 'Error on sending your verification mail.',
 
 ];

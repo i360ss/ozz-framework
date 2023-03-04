@@ -1,0 +1,52 @@
+/* ---------- COMMON ----------- */
+*{
+  text-decoration: none;
+  outline: none;
+}
+p {
+  font-size: $font-semi-normal;
+  line-height: 1.5;
+}
+.button{
+  cursor: pointer;
+  outline: none;
+  border: none;
+  display: block;
+  padding: 12px 24px;
+  border-radius: 3px;
+  background: color(primary);
+  font-size: $font-semi-normal;
+  font-family: $space;
+  font-weight: 500;
+  color: color(white);
+  &:hover {
+    background: color(primary-dark);
+    border-color: color(primary-dark);
+  }
+  @media screen and (min-width: 570px) {
+    display: inline-block;
+    width: auto;
+  }
+}
+.link {
+  font-size: $font-normal;
+  color: color(primary);
+  &:hover {
+    color: color(primary-dark);
+  }
+}
+.c-green {
+  color: color(success);
+}
+.c-red {
+  color: color(danger);
+}
+.c-orange {
+  color: color(warning);
+}
+.hr1 {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  padding: 0;
+}

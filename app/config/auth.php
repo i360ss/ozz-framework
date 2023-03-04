@@ -20,9 +20,21 @@ define('AUTH_SIGNUP_PATH', '/sign-up');
 
 
 /**
+ * Default forgot password URL
+ */
+define('AUTH_FORGOT_PASSWORD_PATH', '/forgot-password');
+
+
+/**
+ * Default reset password URL
+ */
+define('AUTH_RESET_PASSWORD_PATH', '/reset-password');
+
+
+/**
  * Default email verification URL
  */
-define('AUTH_EMAIL_VERIFY_PATH', 'verify-account/');
+define('AUTH_EMAIL_VERIFY_PATH', '/verify-account');
 
 
 /**
@@ -38,13 +50,25 @@ define('AUTH_MIDDLEWARE_NAME', 'AuthMiddleware.php');
 
 
 /**
- * Users database table name
+ * User database table
  */
-define('AUTH_USERS_TABLE', 'users');
+define('AUTH_USERS_TABLE', 'user');
 
 
 /**
- * Automatically activate account and login once signup successfully
+ * User meta database table
+ */
+define('AUTH_META_TABLE', 'user_meta');
+
+
+/**
+ * User log table
+ */
+define('AUTH_LOG_TABLE', 'user_log');
+
+
+/**
+ * Automatically activate account and login once registered successfully
  * This will work only if verification mail disabled
  */
 define('AUTH_ACTIVATE_AND_LOGIN_ONCE_SIGNUP', true);
@@ -57,56 +81,65 @@ define('AUTH_SEND_VERIFICATION_MAIL', false);
 
 
 /**
- * Email notification if user signed in from a different IP/Device/OS/Browser
+ * Send Email notification if user signed in from a different IP/Device/OS/Browser
  */
 define('AUTH_NEW_LOGIN_ALERT', true);
 
 
 /**
- * Enable or disable throttle
+ * Send Email notification if password changed
  */
-define('AUTH_THROTTLE', true);
+define('AUTH_PASSWORD_CHANGED_ALERT', true);
 
 
 /**
- * Throttle database table name
+ * Logout if password changed
  */
-define('AUTH_THROTTLE_TABLE', 'users_log');
+define('AUTH_LOGOUT_ON_PASSWORD_CHANGE', true);
 
 
 /**
- * Number of maximum wrong auth attempts
- */
-define('AUTH_THROTTLE_MAX_ATTEMPTS', 5);
-
-
-/**
- * Throttling time (Attempts within this amount of time)
+ * Password reset link expire in
  * Should be defined in seconds
  */
-define('AUTH_THROTTLE_TIME', 60*20);
+define('PASSWORD_RESET_LINK_EXPIRE_IN', 60*30);
 
 
 /**
- * Throttle delay time (Try again after this amount of time)
- * Should be defined in seconds
+ * Password reset and change throttle
  */
-define('AUTH_THROTTLE_DELAY_TIME', 60);
+define('AUTH_PASSWORD_RESET_THROTTLE', [
+  'ENABLE'        => true,
+  'MAX_ATTEMPTS'  => 3,
+  'PERIOD'        => 60*10,
+  'DELAY_TIME'    => 60
+]);
 
 
 /**
- * Core database table fields for auth
+ * User Login throttle
+ */
+define('AUTH_LOGIN_THROTTLE', [
+  'ENABLE'        => true,
+  'MAX_ATTEMPTS'  => 3,
+  'PERIOD'        => 60*2,
+  'DELAY_TIME'    => 60
+]);
+
+
+/**
+ * User table core fields
  */
 define('AUTH_CORE_FIELDS', [
-  'id_field'             => 'user_id',
-  'username_field'       => 'username',
-  'email_field'          => 'email',
-  'password_field'       => 'password',
-  'first_name_field'     => 'first_name',
-  'last_name_field'      => 'last_name',
-  'status_field'         => 'status',
-  'role_field'           => 'role',
-  'activation_key_field' => 'activation_key',
+  'ID_FIELD'             => 'user_id',
+  'USERNAME_FIELD'       => 'username',
+  'EMAIL_FIELD'          => 'email',
+  'PASSWORD_FIELD'       => 'password',
+  'FIRST_NAME_FIELD'     => 'first_name',
+  'LAST_NAME_FIELD'      => 'last_name',
+  'STATUS_FIELD'         => 'status',
+  'ROLE_FIELD'           => 'role',
+  'ACTIVATION_KEY_FIELD' => 'activation_key',
 ]);
 
 
@@ -166,6 +199,9 @@ define('AUTH_VIEWS', [
 define('AUTH_EMAIL_TEMPLATES', [
   'account-verification'   => 'account-verification.phtml',
   'password-reset-request' => 'password-reset-request.phtml',
-  'throttle-reset-request' => 'throttle-reset.phtml',
   'new-login-alert'        => 'new-login-alert.phtml',
+  'register-alert'         => 'register-alert.phtml',
+  'password-changed-alert' => 'password-changed-alert.phtml', // Not done yet
 ]);
+
+?>

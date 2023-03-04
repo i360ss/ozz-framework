@@ -9,15 +9,21 @@
 ?>
 
 <header>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <?php if(is_logged_in()) : ?>
-        <li><a href="/logout">Logout</a></li>
-      <?php else: ?>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/sign-up">Sign Up</a></li>
-      <?php endif; ?>
-    </ul>
-  </nav>
+  <div class="container">
+    <a href="<?=BASE_URL?>">
+      <div class="logo">LOGO</div>
+    </a>
+    <nav>
+      <ul>
+        <?php if(is_logged_in()) : ?>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/logout">Logout</a></li>
+        <?php else: ?>
+          <li><a href="/">Home</a></li>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/sign-up">Sign Up</a></li>
+        <?php endif; ?>
+      </ul>
+    </nav>
+  </div>
 </header>
