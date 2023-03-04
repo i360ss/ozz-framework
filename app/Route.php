@@ -1,6 +1,8 @@
 <?php
 use Ozz\Core\Router;
 use Ozz\Core\Request;
+use Ozz\Core\Response;
+use Ozz\Core\Auth;
 
 Router::get('/', function(){
   $data = [
@@ -11,8 +13,8 @@ Router::get('/', function(){
       'link' => '#'
     ]
   ];
-  
-  view('welcome', $data);
+
+  return view('welcome', $data);
 });
 
 Router::get('/api', function(){
@@ -20,6 +22,6 @@ Router::get('/api', function(){
     'name' => 'John Doe',
     'age' => 26
   ];
-  
-  json($data);
+
+  return json($data);
 });
