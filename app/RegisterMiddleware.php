@@ -13,5 +13,5 @@ $auto_middleware = [
  * This should be called from route to execute
  */
 $route_middleware = [
-  'auth' => App\middleware\AuthMiddleware::class,
+  // 'auth' => App\middleware\AuthMiddleware::class,
 ];
