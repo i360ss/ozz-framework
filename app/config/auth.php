@@ -46,7 +46,7 @@ define('AUTH_CONTROLLER', 'AuthController');
 /**
  * Auth Middleware Name
  */
-define('AUTH_MIDDLEWARE_NAME', 'AuthMiddleware.php');
+define('AUTH_MIDDLEWARE_NAME', 'AuthMiddleware');
 
 
 /**

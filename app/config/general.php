@@ -28,6 +28,18 @@ define('MINIFY_HTML', false);
 
 
 /**
+ * Ozz Exception handler
+ */
+define('OZZ_EXCEPTION_HANDLER', true);
+
+
+/**
+ * Error log
+ */
+define('ERROR_LOG', false);
+
+
+/**
  * Default Database Engine
  */
 define('DB_DEFAULT_ENGINE', 'InnoDB');

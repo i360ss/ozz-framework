@@ -1,11 +1,11 @@
 {{ title        = "Welcome to <?=APP_NAME?>" }}
 {{ keywords     = "meta_keywords" }}
 {{ description  = "meta_description" }}
-{{ bodyClass    = "body_classes_for_current_view" }}
+{{ body_class   = "view-welcome" }}
 
 {{ content }}
-<section class="container">
-  <div class="welcome">
+<section class="welcome">
+  <div class="container">
     <div class="inner">
       <h1><?=$data['greeting']?></h1>
       <h4><?=$data['caption']?></h4>
