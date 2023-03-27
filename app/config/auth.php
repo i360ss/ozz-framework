@@ -1,113 +1,43 @@
 <?php
 // Auth Configurations
 
-/**
- * Default login URL
- */
-define('AUTH_LOGIN_PATH', '/login');
-
-
-/**
- * Default logout URL
- */
-define('AUTH_LOGOUT_PATH', '/logout');
-
-
-/**
- * Default signup URL
- */
-define('AUTH_SIGNUP_PATH', '/sign-up');
-
-
-/**
- * Default forgot password URL
- */
-define('AUTH_FORGOT_PASSWORD_PATH', '/forgot-password');
-
-
-/**
- * Default reset password URL
- */
-define('AUTH_RESET_PASSWORD_PATH', '/reset-password');
-
-
-/**
- * Default email verification URL
- */
-define('AUTH_EMAIL_VERIFY_PATH', '/verify-account');
-
-
-/**
- * Default auth controller
- */
+// Default auth controller
 define('AUTH_CONTROLLER', 'AuthController');
 
-
-/**
- * Auth Middleware Name
- */
+// Auth Middleware Name
 define('AUTH_MIDDLEWARE_NAME', 'AuthMiddleware');
 
-
-/**
- * User database table
- */
+// User database table
 define('AUTH_USERS_TABLE', 'user');
 
-
-/**
- * User meta database table
- */
+// User meta database table
 define('AUTH_META_TABLE', 'user_meta');
 
-
-/**
- * User log table
- */
+// User log table
 define('AUTH_LOG_TABLE', 'user_log');
 
+// Automatically activate account and login once registered successfully
+define('AUTH_ACTIVATE_AND_LOGIN_ONCE_SIGNUP', false);
 
-/**
- * Automatically activate account and login once registered successfully
- * This will work only if verification mail disabled
- */
-define('AUTH_ACTIVATE_AND_LOGIN_ONCE_SIGNUP', true);
+// Send verification email on signup (if 'AUTH_ACTIVATE_AND_LOGIN_ONCE_SIGNUP == true' verification mail won't send)
+define('AUTH_SEND_VERIFICATION_MAIL', true);
 
-
-/**
- * Send Email verification on signup
- */
-define('AUTH_SEND_VERIFICATION_MAIL', false);
-
-
-/**
- * Send Email notification if user signed in from a different IP/Device/OS/Browser
- */
+// Send Email notification if user signed in from a different IP/Device/OS/Browser
 define('AUTH_NEW_LOGIN_ALERT', true);
 
-
-/**
- * Send Email notification if password changed
- */
+// Send Email notification if password changed
 define('AUTH_PASSWORD_CHANGED_ALERT', true);
 
-
-/**
- * Logout if password changed
- */
+// Logout if password changed
 define('AUTH_LOGOUT_ON_PASSWORD_CHANGE', true);
 
+// Password reset link lifetime (seconds)
+define('PASSWORD_RESET_LINK_LIFETIME', 60*30);
 
-/**
- * Password reset link expire in
- * Should be defined in seconds
- */
-define('PASSWORD_RESET_LINK_EXPIRE_IN', 60*30);
+// Email verification link lifetime (seconds)
+define('EMAIL_VERIFICATION_LINK_LIFETIME', 60*30);
 
-
-/**
- * Password reset and change throttle
- */
+// Password reset and change throttle
 define('AUTH_PASSWORD_RESET_THROTTLE', [
   'ENABLE'        => true,
   'MAX_ATTEMPTS'  => 3,
@@ -115,10 +45,7 @@ define('AUTH_PASSWORD_RESET_THROTTLE', [
   'DELAY_TIME'    => 60
 ]);
 
-
-/**
- * User Login throttle
- */
+// User Login throttle
 define('AUTH_LOGIN_THROTTLE', [
   'ENABLE'        => true,
   'MAX_ATTEMPTS'  => 3,
@@ -126,10 +53,15 @@ define('AUTH_LOGIN_THROTTLE', [
   'DELAY_TIME'    => 60
 ]);
 
+// Email change throttle
+define('AUTH_EMAIL_CHANGE_THROTTLE', [
+  'ENABLE'        => true,
+  'MAX_ATTEMPTS'  => 3,
+  'PERIOD'        => 60*10,
+  'DELAY_TIME'    => 60
+]);
 
-/**
- * User table core fields
- */
+// User table core fields
 define('AUTH_CORE_FIELDS', [
   'ID_FIELD'             => 'user_id',
   'USERNAME_FIELD'       => 'username',
@@ -142,10 +74,7 @@ define('AUTH_CORE_FIELDS', [
   'ACTIVATION_KEY_FIELD' => 'activation_key',
 ]);
 
-
-/**
- * Allowed database fields of auth (users) table to access
- */
+// Allowed database fields of auth (users) table to access
 define('AUTH_ALLOWED_FIELDS', [
   'user_id',
   'username',
@@ -159,10 +88,7 @@ define('AUTH_ALLOWED_FIELDS', [
   'activation_key'
 ]);
 
-
-/**
- * User roles and permissions
- */
+// User roles and permissions
 define('AUTH_USER_ROLES', [
   'admin' => [
     'landing_page'  => '/dashboard',
@@ -179,10 +105,7 @@ define('AUTH_USER_ROLES', [
   ]
 ]);
 
-
-/**
- * Auth view files
- */
+// Auth view files
 define('AUTH_VIEWS', [
   'sign-up'           => 'sign-up.phtml',
   'login'             => 'login.phtml',
@@ -192,16 +115,26 @@ define('AUTH_VIEWS', [
   'dashboard'         => 'dashboard.phtml',
 ]);
 
+// Auth route paths
+define('AUTH_PATHS', [
+  'login' => '/login',
+  'logout' => '/logout',
+  'signup' => '/sign-up',
+  'forgot_password' => '/forgot-password',
+  'reset_password' => '/reset-password',
+  'verify_account' => '/verify-account',
+  'verify_email' => '/verify-email',
+]);
 
-/**
- * Auth email templates
- */
+// Auth email templates
 define('AUTH_EMAIL_TEMPLATES', [
-  'account-verification'   => 'account-verification.phtml',
-  'password-reset-request' => 'password-reset-request.phtml',
-  'new-login-alert'        => 'new-login-alert.phtml',
-  'register-alert'         => 'register-alert.phtml',
-  'password-changed-alert' => 'password-changed-alert.phtml', // Not done yet
+  'account-verification'      => 'account-verification.phtml',
+  'email-change-verification' => 'email-verification.phtml',
+  'email-changed-alert'       => 'email-changed-alert.phtml',
+  'new-login-alert'           => 'new-login-alert.phtml',
+  'register-alert'            => 'register-alert.phtml',
+  'password-reset-request'    => 'password-reset-request.phtml',
+  'password-changed-alert'    => 'password-changed-alert.phtml',
 ]);
 
 ?>

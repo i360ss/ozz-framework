@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "ozz/core": "^0.1.16",
+        "ozz/core": "^0.1.17",
         "phpmailer/phpmailer": "^6.7"
     },
     "require-dev": {
@@ -21,5 +21,10 @@
         "psr-4": {
             "App\\": "app/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php ozz c:auth"
+        ]
     }
 }

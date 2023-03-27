@@ -5,6 +5,7 @@ return [
    * All your application's translatable error messages should be here
    */
 
+  'error' => 'Something went wrong!',
   'required' => 'This field is required',
   'boolean' => '(:value) is not a Boolean value',
   'text' => 'Field (:field) should contain only letters',
@@ -21,6 +22,7 @@ return [
   'min' => 'Field (:field) should contain at least :min characters',
   'match' => 'Password not matching',
   'invalid_array_key' => 'Invalid array key provided',
+  'invalid_token' => 'Invalid :type token',
 
   // Password Errors
   'normal_password' => 'Spaces are not allowed in password!',
@@ -46,6 +48,7 @@ return [
   // Auth Errors
   'registration_failed' => 'Registration failed!',
   'email_already_exist' => 'Email address is already registered. Please login to your account or try with another email',
+  'email_change_throttle' => 'Email change attempts exceeded. Please verify requested email or try again after :time',
   'username_already_exist' => 'Username already exist!',
   'unverified_account' => 'Please verify your email before login',
   'account_locked' => 'Your account is locked! Please contact support team',

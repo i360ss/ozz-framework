@@ -13,7 +13,6 @@ define('DEFAULT_INPUT_VALIDATION', [
   'test'            => ['req', 'float']
 ]);
 
-
 /**
  * Default File validation
  */
