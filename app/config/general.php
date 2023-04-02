@@ -8,19 +8,19 @@ define('CHARSET', 'utf-8');
 define('SESSION_DRIVER', 'file');
 
 // Session name
-define('SESSION_COOKIE_NAME', 'ozz_session');
+define('SESSION_COOKIE_NAME', 'ozz_ses_id');
 
 // Refresh session ID after this time (seconds)
 define('SESSION_LIFETIME', 600);
 
 // Session prefix
-define('SESSION_PREFIX', 'ozz_sess_');
+define('SESSION_PREFIX', 'ozz_ses_');
 
 // File based session directory
 define('SESSION_DIRECTORY', 'storage/session');
 
 // Secret key for session encryption (only for file based sessions)
-define('SESSION_SECRET_KEY', 'mdjCwNkkPKnlpnvseivs10kbbmtRl4d2OBPZLRLFvtdW7USnlyYdrki');
+define('SESSION_SECRET_KEY', '');
 
 // Secure session cookie
 define('SESSION_SECURE_COOKIE', true);
