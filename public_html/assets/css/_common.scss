@@ -27,6 +27,50 @@ p {
     display: inline-block;
     width: auto;
   }
+  &.small {
+    padding: 10px 16px;
+    font-size: $font-normal;
+  }
+  &.mini {
+    padding: 6px 12px;
+    font-size: $font-small-2;
+    margin: 2.5px 0;
+    &.tab-button {
+      strong {
+        margin-left: 6px;
+      }
+    }
+  }
+  &.light {
+    background: color(silver);
+    color: color(secondary);
+    &:hover {
+      color: color(white);
+      background: color(gray2);
+    }
+    &.active {
+      color: color(white);
+      background: color(primary);
+    }
+  }
+}
+.common-alert-bar {
+  .message {
+    display: block;
+    padding: 14px;
+    font-size: $font-normal;
+    margin-bottom: 16px;
+    border-radius: 3px;
+    text-align: center;
+    &.success {
+      background: color(lightGreen);
+      color: color(success);
+    }
+    &.error {
+      background: rgba(color(danger), 0.1);
+      color: color(danger);
+    }
+  }
 }
 .link {
   font-size: $font-normal;

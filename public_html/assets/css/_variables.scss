@@ -2,7 +2,7 @@
 // Font
 @font-face {
   font-family: 'Space Grotesk';
-  src: url('../fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');
+  src: url('#{$font-path}SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');
   font-display: swap;
   font-weight: 300 700;
 }
@@ -11,6 +11,7 @@ $space: 'Space Grotesk', sans-serif;
 
 // Font sizes
 $font-small: 12px;
+$font-small-2: 14px;
 $font-normal: 16px;
 $font-semi-normal: 18px;
 $font-medium: 26px;
@@ -27,12 +28,12 @@ $colors: (
   warning: #ee8f00,
   blue: #4797ff,
   darkBlue: #006ace,
-  lightGreen: #ccffd3,
-  success: #39B54A,
+  lightGreen: #cceed1,
+  success: #1b8d2b,
   white: #ffffff,
+  silver: #e0e0e0,
   gray1: #888888,
-  red: #e20000,
-  org: #ee8f00,
+  gray2: #aaaaaa,
 );
 
 // Shadows

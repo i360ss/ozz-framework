@@ -16,7 +16,9 @@ p {
   line-height: 1.5;
 }
 
-.button, .form .button,
+.button, .ozz-form .button,
+.ozz-form input[type=submit],
+.form .button,
 .form input[type=submit] {
   cursor: pointer;
   outline: none;
@@ -31,16 +33,72 @@ p {
   color: #ffffff;
 }
 .button:hover,
+.ozz-form input[type=submit]:hover,
 .form input[type=submit]:hover {
   background: #555ed3;
   border-color: #555ed3;
 }
 @media screen and (min-width: 570px) {
-  .button, .form .button,
+  .button, .ozz-form .button,
+  .ozz-form input[type=submit],
+  .form .button,
   .form input[type=submit] {
     display: inline-block;
     width: auto;
   }
+}
+.button.small,
+.ozz-form input.small[type=submit],
+.form input.small[type=submit] {
+  padding: 10px 16px;
+  font-size: 16px;
+}
+.button.mini,
+.ozz-form input.mini[type=submit],
+.form input.mini[type=submit] {
+  padding: 6px 12px;
+  font-size: 14px;
+  margin: 2.5px 0;
+}
+.button.mini.tab-button strong,
+.ozz-form input.mini.tab-button[type=submit] strong,
+.form input.mini.tab-button[type=submit] strong {
+  margin-left: 6px;
+}
+.button.light,
+.ozz-form input.light[type=submit],
+.form input.light[type=submit] {
+  background: #e0e0e0;
+  color: #212121;
+}
+.button.light:hover,
+.ozz-form input.light[type=submit]:hover,
+.form input.light[type=submit]:hover {
+  color: #ffffff;
+  background: #aaaaaa;
+}
+.button.light.active,
+.ozz-form input.light.active[type=submit],
+.form input.light.active[type=submit] {
+  color: #ffffff;
+  background: #666EE8;
+}
+
+.common-alert-bar .message {
+  display: block;
+  padding: 14px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  border-radius: 3px;
+  text-align: center;
+}
+.common-alert-bar .message.success {
+  background: #cceed1;
+  color: #1b8d2b;
+}
+.common-alert-bar .message.error {
+  background: rgba(180, 16, 16, 0.1);
+  color: #b41010;
 }
 
 .link {
@@ -52,7 +110,7 @@ p {
 }
 
 .c-green {
-  color: #39B54A;
+  color: #1b8d2b;
 }
 
 .c-red {
@@ -127,20 +185,27 @@ body .left-align {
 }
 
 /* ----------FORM ----------- */
+.ozz-form *,
 .form * {
   font-family: "Space Grotesk", sans-serif;
   font-size: 16px;
 }
+.ozz-form .form-item,
 .form .form-item {
   margin: 0 0 24px;
 }
+.ozz-form .form-item__link,
 .form .form-item__link {
   font-size: 16px;
   color: #666EE8;
 }
+.ozz-form .form-item__link:hover,
 .form .form-item__link:hover {
   color: #555ed3;
 }
+.ozz-form select,
+.ozz-form textarea,
+.ozz-form input,
 .form select,
 .form textarea,
 .form input {
@@ -149,22 +214,33 @@ body .left-align {
   border: 1px solid rgba(33, 33, 33, 0.2);
   border-radius: 5px;
 }
+.ozz-form select:not(input[type=submit]),
+.ozz-form textarea:not(input[type=submit]),
+.ozz-form input:not(input[type=submit]),
 .form select:not(input[type=submit]),
 .form textarea:not(input[type=submit]),
 .form input:not(input[type=submit]) {
   transition: 0.3s ease-in-out;
 }
+.ozz-form select:not(input[type=submit]):focus,
+.ozz-form textarea:not(input[type=submit]):focus,
+.ozz-form input:not(input[type=submit]):focus,
 .form select:not(input[type=submit]):focus,
 .form textarea:not(input[type=submit]):focus,
 .form input:not(input[type=submit]):focus {
   border-color: #666EE8;
   box-shadow: 0 0 0 4px rgba(102, 110, 232, 0.2);
 }
+.ozz-form select.error,
+.ozz-form textarea.error,
+.ozz-form input.error,
 .form select.error,
 .form textarea.error,
 .form input.error {
   border-color: #b41010;
+  background-color: rgba(180, 16, 16, 0.03);
 }
+.ozz-form .message,
 .form .message {
   display: grid;
   line-height: 1.3rem;
@@ -172,24 +248,29 @@ body .left-align {
   border-radius: 5px;
   text-align: center;
 }
+.ozz-form .message.success,
 .form .message.success {
-  color: #39B54A;
-  border: 1px solid rgba(57, 181, 74, 0.3);
-  background-color: rgba(57, 181, 74, 0.05);
+  color: #1b8d2b;
+  border: 1px solid rgba(27, 141, 43, 0.3);
+  background-color: rgba(27, 141, 43, 0.05);
 }
+.ozz-form .message.warning,
 .form .message.warning {
   color: #ee8f00;
   border: 1px solid rgba(238, 143, 0, 0.3);
   background-color: rgba(238, 143, 0, 0.05);
 }
+.ozz-form .message.danger,
 .form .message.danger {
   color: #b41010;
   border: 1px solid rgba(180, 16, 16, 0.3);
   background-color: rgba(180, 16, 16, 0.05);
 }
+.ozz-form .message a,
 .form .message a {
   display: contents;
 }
+.ozz-form .error-label,
 .form .error-label {
   display: inline-block;
   font-size: 12px;
@@ -197,6 +278,7 @@ body .left-align {
   margin-top: 5px;
   color: #b41010;
 }
+.ozz-form .form-error p,
 .form .form-error p {
   margin-top: 0;
 }
@@ -315,7 +397,7 @@ header {
 }
 @media screen and (min-width: 768px) {
   header {
-    height: 75px;
+    height: 60px;
   }
 }
 header .container {

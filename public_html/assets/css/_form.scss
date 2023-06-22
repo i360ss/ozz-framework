@@ -1,4 +1,5 @@
 /* ----------FORM ----------- */
+.ozz-form,
 .form {
   * {
     font-family: $space;
@@ -30,6 +31,7 @@
     }
     &.error {
       border-color: color(danger);
+      background-color: rgba(color(danger), 0.03);
     }
   }
   .button,
