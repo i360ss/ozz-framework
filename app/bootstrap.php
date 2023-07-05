@@ -9,15 +9,15 @@ $APP = new AppInit();
 $EXCEPTION = new ExceptionHandler();
 $DEBUG_BAR = new DebugBar();
 
+// Default Routes
+require __DIR__.'/../app/Route.php';
+
 // Load CMS routes
 if(env('app', 'ENABLE_CMS')) {
   (file_exists(__DIR__.'/../app/cms-route.php'))
     ? require __DIR__.'/../app/cms-route.php'
     : false;
 }
-
-// Default Routes
-require __DIR__.'/../app/Route.php';
 
 Middleware::execute();
 $APP->run();
