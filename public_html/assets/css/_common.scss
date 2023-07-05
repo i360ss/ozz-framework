@@ -53,6 +53,13 @@ p {
       background: color(primary);
     }
   }
+  &.danger {
+    background: color(danger);
+    color: color(white);
+    &:hover {
+      background: color(danger-dark);
+    }
+  }
 }
 .common-alert-bar {
   .message {
@@ -96,4 +103,8 @@ p {
   border-bottom: 1px solid #ddd;
   background: transparent;
   padding: 0;
+}
+.required-star {
+  margin-left: 3px;
+  color: color(danger);
 }

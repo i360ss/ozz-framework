@@ -22,9 +22,11 @@ $font-larger: 62px;
 $colors: (
   primary: #666EE8,
   secondary: #212121,
+  dark1: #2B2E3F,
   primary-dark: #555ed3,
   light1: #eeeff8,
   danger: #b41010,
+  danger-dark: #990d0d,
   warning: #ee8f00,
   blue: #4797ff,
   darkBlue: #006ace,
@@ -37,8 +39,11 @@ $colors: (
 );
 
 // Shadows
-$shadow1: 0 1px 3px rgba(0,0,0,0.1);
+$shadow1: 0 2px 2px rgba(0,0,0,0.15);
 $shadow2: 0 3px 6px 0 rgba(0,0,100,0.05);
+
+// Border radius
+$radius1: 5px;
 
 // Functions
 @function color($color)  {
