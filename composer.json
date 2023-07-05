@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "ozz/core": "^0.1.24",
+        "ozz/core": "^0.1.25",
         "phpmailer/phpmailer": "^6.7"
     },
     "require-dev": {
@@ -24,7 +24,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php ozz c:auth"
+            "bash php ozz c:auth"
         ]
     }
 }
