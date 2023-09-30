@@ -58,7 +58,7 @@ p {
 .form input.mini[type=submit] {
   padding: 6px 12px;
   font-size: 14px;
-  margin: 2.5px 0;
+  margin: 2px;
 }
 .button.mini.tab-button strong,
 .ozz-form input.mini.tab-button[type=submit] strong,
