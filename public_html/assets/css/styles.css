@@ -107,7 +107,7 @@ p {
   background: #cceed1;
   color: #1b8d2b;
 }
-.common-alert-bar .message.error {
+.common-alert-bar .message.error, .common-alert-bar .message.danger {
   background: rgba(180, 16, 16, 0.1);
   color: #b41010;
 }
@@ -148,6 +148,33 @@ p {
   color: #b41010;
 }
 
+.ozz-pagination {
+  padding: 10px;
+}
+.ozz-pagination .pagination a {
+  text-decoration: none;
+}
+.ozz-pagination .pagination button {
+  padding: 5px 10px;
+  background: #e0e0e0;
+  color: #2B2E3F;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  margin: 1px;
+  cursor: pointer;
+}
+.ozz-pagination .pagination button:hover, .ozz-pagination .pagination button.current-page {
+  color: #ffffff;
+}
+.ozz-pagination .pagination button:hover {
+  background: #666EE8;
+}
+.ozz-pagination .pagination button.current-page {
+  background: #555ed3;
+}
+
 /* ----------LAYOUT ----------- */
 body {
   margin: 0;
@@ -162,11 +189,6 @@ body main {
   margin: 0;
   padding: 60px 0 0;
   min-height: calc(100vh - 214px);
-}
-@media screen and (min-width: 768px) {
-  body main {
-    padding: 80px 0 0;
-  }
 }
 body .component__heading-1 {
   margin: 0 0 24px 0;

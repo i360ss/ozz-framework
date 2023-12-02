@@ -73,7 +73,8 @@ p {
       background: color(lightGreen);
       color: color(success);
     }
-    &.error {
+    &.error,
+    &.danger {
       background: rgba(color(danger), 0.1);
       color: color(danger);
     }
@@ -107,4 +108,33 @@ p {
 .required-star {
   margin-left: 3px;
   color: color(danger);
+}
+.ozz-pagination {
+  padding: 10px;
+  .pagination {
+    a {
+      text-decoration: none;
+    }
+    button {
+      padding: 5px 10px;
+      background: color(silver);
+      color: color(dark1);
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 5px;
+      margin: 1px;
+      cursor: pointer;
+      &:hover,
+      &.current-page {
+        color: color(white);
+      }
+      &:hover {
+        background: color(primary);
+      }
+      &.current-page {
+        background: color(primary-dark);
+      }
+    }
+  }
 }

@@ -8,6 +8,10 @@ return [
   // File & upload related messages
   'image_upload_success' => 'Image uploaded successfully!',
   'file_upload_success' => 'File uploaded successfully!',
+  'file_created_success' => 'File created successfully!',
+  'file_deleted_success' => 'File deleted successfully!',
+  'folder_created_success' => 'Folder created successfully!',
+  'folder_deleted_success' => 'Folder deleted successfully!',
   
   // Auth related messages
   'signup_success' => 'You have signed up Successfully! <a href="/login">Login</a> to your account',

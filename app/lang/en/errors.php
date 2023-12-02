@@ -40,7 +40,11 @@ return [
   'file_too_large' => 'The file you are trying to upload is too large',
   'file_too_small' => 'The file you are trying to upload is too small',
   'file_invalid_format' => 'The file format will not support',
-  'file_already_exist' => 'The file you are trying to upload is already exist',
+  'file_already_exist' => 'The file is already exist',
+  'file_not_created' => 'Error on creating your file',
+  'folder_not_created' => 'Error on creating your folder',
+  'folder_already_exist' => 'Directory already exist',
+  'file_not_deleted' => 'Error on deleting the file',
 
   // Image
   'image_high_res' => 'Image width and/or height is too large',
