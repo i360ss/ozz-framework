@@ -85,7 +85,7 @@
 
 
 /**
- * Email template code (app/email_template)
+ * Email template code (app/mail)
  * @param string $data (name, path)
  */
 // function ozz_code_gen_email_template($data){
