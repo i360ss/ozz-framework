@@ -3,6 +3,9 @@
   text-decoration: none;
   outline: none;
 }
+h1 {
+  font-size: $font-medium;
+}
 p {
   font-size: $font-semi-normal;
   line-height: 1.5;
@@ -20,7 +23,7 @@ p {
   font-weight: 500;
   color: color(white);
   &:hover {
-    background: color(primary-dark);
+    background-color: color(primary-dark);
     border-color: color(primary-dark);
   }
   @media screen and (min-width: 570px) {
@@ -28,11 +31,11 @@ p {
     width: auto;
   }
   &.small {
-    padding: 10px 16px;
+    padding: 8px 14px;
     font-size: $font-normal;
   }
   &.mini {
-    padding: 6px 12px;
+    padding: 5px 12px;
     font-size: $font-small-2;
     margin: 2px;
     &.tab-button {
@@ -41,42 +44,67 @@ p {
       }
     }
   }
+  &.micro {
+    padding: 4px 8px;
+    font-size: $font-small-1;
+    margin: 2px;
+  }
   &.light {
-    background: color(silver);
+    background-color: color(light2);
+    border: 1px solid color(silver);
     color: color(secondary);
+    border-radius: 3px;
     &:hover {
-      color: color(white);
-      background: color(gray2);
+      background-color: color(light1);
     }
     &.active {
       color: color(white);
-      background: color(primary);
+      background-color: color(primary);
+      border-color: transparent;
     }
   }
   &.danger {
-    background: color(danger);
+    background-color: color(danger);
     color: color(white);
     &:hover {
-      background: color(danger-dark);
+      background-color: color(danger-dark);
+    }
+  }
+  &.green {
+    background-color: color(success);
+    &:hover {
+      background-color: color(dark-green);
     }
   }
 }
 .common-alert-bar {
+  position: fixed;
+  max-width: 500px;
+  top: 60px;
+  right: 42px;
+  z-index: 997;
   .message {
     display: block;
-    padding: 14px;
+    padding: 16px 30px;
     font-size: $font-normal;
-    margin-bottom: 16px;
-    border-radius: 3px;
     text-align: center;
+    border-radius: 5px 0 0 5px;
+    transition: .3s ease-in-out;
+    animation: slide-from-right .3s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    background-color: rgba(color(white), 0.9);
     &.success {
-      background: color(lightGreen);
       color: color(success);
+      border-right: 6px solid color(success);
     }
     &.error,
     &.danger {
-      background: rgba(color(danger), 0.1);
       color: color(danger);
+      border-right: 6px solid color(danger);
+    }
+    &.info {
+      background-color: color(primary);
+      border-right: 6px solid color(primary);
     }
   }
 }
@@ -102,7 +130,7 @@ p {
 .hr1 {
   border: none;
   border-bottom: 1px solid #ddd;
-  background: transparent;
+  background-color: transparent;
   padding: 0;
 }
 .required-star {
@@ -117,7 +145,7 @@ p {
     }
     button {
       padding: 5px 10px;
-      background: color(silver);
+      background-color: color(silver);
       color: color(dark1);
       font-size: 14px;
       font-weight: 500;
@@ -130,10 +158,10 @@ p {
         color: color(white);
       }
       &:hover {
-        background: color(primary);
+        background-color: color(primary);
       }
       &.current-page {
-        background: color(primary-dark);
+        background-color: color(primary-dark);
       }
     }
   }

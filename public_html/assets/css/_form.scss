@@ -1,5 +1,5 @@
 /* ----------FORM ----------- */
-.ozz-form,
+.ozz-fm,
 .form {
   * {
     font-family: $space;
@@ -73,6 +73,100 @@
   .form-error {
     p {
       margin-top: 0;
+    }
+  }
+  // Repeater field
+  &__repeat {
+    margin-bottom: 20px;
+    padding: 4px 3px 4px 4px;
+    border: 1px solid color(semi-blue);
+    &,
+    &-wrapper {
+      border-radius: 5px;
+    }
+    &-fields {
+      padding-left: 10px;
+      border-radius: 5px 0 0 0;
+      min-width: 250px;
+    }
+    &-head {
+      position: relative;
+      width: calc(100% + 17px);
+      margin: 0 0 3px -14px;
+      height: 34px;
+      background: color(light1);
+      cursor: move;
+      &:before,
+      &:after {
+        position: absolute;
+        content: '';
+        top: 2px;
+        width: 20px;
+        height: 29px;
+        @include icon-sprite;
+      }
+      &:before {
+        left: 6px;
+        background-position: -79px -113px;
+      }
+      &:after {
+        left: 40px;
+        background-position: -118px -111px;
+      }
+    }
+    &-body {
+      padding: 10px 0 20px;
+    }
+    &-remove {
+      position: absolute;
+      right: 3px;
+      top: 3px;
+    }
+    &-label {
+      margin-bottom: 6px;
+      padding: 0 6px;
+      font-size: $font-small-3;
+      font-weight: 600;
+      color: color(primary);
+    }
+    &-number {
+      position: absolute;
+      right: 70px;
+      top: 0;
+      padding: 7px 4px;
+      height: 34px;
+      font-weight: 600;
+      color: color(dark1);
+      text-align: right;
+    }
+    // Single repeater
+    &.single {
+      width: calc(100% - 2px);
+      .ozz-fm__repeat {
+        &-fields {
+          position: relative;
+          padding: 0 0 10px;
+          margin-bottom: 10px;
+          &:not(:last-of-type) {
+            border-bottom: 1px solid rgba(color(gray2), 0.5);
+          }
+          &-field {
+            max-width: calc(100% - 130px);
+            margin-left: 60px;
+          }
+        }
+        &-number {
+          position: absolute;
+          left: 0;
+          right: auto;
+          padding: 10px;
+          width: 60px;
+          text-align: center;
+        }
+      }
+    }
+    .single {
+      padding: 10px 4px 4px;
     }
   }
 }
