@@ -79,10 +79,23 @@
   &__repeat {
     margin-bottom: 20px;
     padding: 4px 3px 4px 4px;
-    border: 1px solid color(semi-blue);
+    border: 1px solid rgba(color(semi-blue), 0.5);
     &,
     &-wrapper {
       border-radius: 5px;
+    }
+    &-top {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 4px;
+      margin: -4px 0 0 -4px;
+      width: calc(100% + 7px);
+      background-color: color(light1);
+      border-radius: 5px 5px 0 0;
+      legend {
+        min-width: 250px;
+      }
     }
     &-fields {
       padding-left: 10px;
@@ -94,7 +107,7 @@
       width: calc(100% + 17px);
       margin: 0 0 3px -14px;
       height: 34px;
-      background: color(light1);
+      background: color(light2);
       cursor: move;
       &:before,
       &:after {
@@ -112,10 +125,20 @@
       &:after {
         left: 40px;
         background-position: -118px -111px;
+        transform: rotate(180deg);
+        transform-origin: center;
+      }
+      &.close {
+        &:after {
+          transform: rotate(0deg);
+        }
       }
     }
     &-body {
       padding: 10px 0 20px;
+      &.close {
+        display: none;
+      }
     }
     &-remove {
       position: absolute;

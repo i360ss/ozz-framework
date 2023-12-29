@@ -30,6 +30,10 @@ p {
     display: inline-block;
     width: auto;
   }
+  &[disabled="true"] {
+    opacity: 0.4;
+    filter: saturate(0);
+  }
   &.small {
     padding: 8px 14px;
     font-size: $font-normal;
