@@ -77,7 +77,7 @@
   }
   // Repeater field
   &__repeat {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 4px 3px 4px 4px;
     border: 1px solid rgba(color(semi-blue), 0.5);
     &,
@@ -105,7 +105,7 @@
     &-head {
       position: relative;
       width: calc(100% + 17px);
-      margin: 0 0 3px -14px;
+      margin: 0 0 5px -14px;
       height: 34px;
       background: color(light2);
       cursor: move;
@@ -113,10 +113,11 @@
       &:after {
         position: absolute;
         content: '';
-        top: 2px;
+        top: 3px;
         width: 20px;
         height: 29px;
         @include icon-sprite;
+        transition: .2s ease-in-out;
       }
       &:before {
         left: 6px;
@@ -135,7 +136,7 @@
       }
     }
     &-body {
-      padding: 10px 0 20px;
+      padding: 10px 5px 20px 0;
       &.close {
         display: none;
       }
@@ -161,6 +162,11 @@
       font-weight: 600;
       color: color(dark1);
       text-align: right;
+    }
+    &-add {
+      &.button {
+        margin-left: 2px;
+      }
     }
     // Single repeater
     &.single {

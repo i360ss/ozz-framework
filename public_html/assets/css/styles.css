@@ -26,21 +26,21 @@ p {
 .form input[type=submit] {
   cursor: pointer;
   outline: none;
-  border: none;
+  border: 1px solid rgba(31, 34, 46, 0.2);
   display: block;
   padding: 12px 24px;
-  border-radius: 3px;
+  border-radius: 4px;
   background: #666EE8;
   font-size: 18px;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 500;
   color: #ffffff;
+  box-shadow: 0 3px 2px -3px rgba(0, 0, 0, 0.3), 0 -3px 8px 0 rgba(0, 0, 0, 0.02) inset, 0 3px 8px 0 rgba(255, 255, 255, 0.3) inset;
 }
 .button:hover,
 .ozz-fm input[type=submit]:hover,
 .form input[type=submit]:hover {
   background-color: #555ed3;
-  border-color: #555ed3;
 }
 @media screen and (min-width: 570px) {
   .button, .ozz-fm .button,
@@ -60,15 +60,15 @@ p {
 .button.small,
 .ozz-fm input.small[type=submit],
 .form input.small[type=submit] {
-  padding: 8px 14px;
+  padding: 7px 14px;
   font-size: 16px;
 }
 .button.mini,
 .ozz-fm input.mini[type=submit],
 .form input.mini[type=submit] {
   padding: 5px 12px;
+  margin: 2px 2px 2px 0;
   font-size: 14px;
-  margin: 2px;
 }
 .button.mini.tab-button strong,
 .ozz-fm input.mini.tab-button[type=submit] strong,
@@ -78,7 +78,7 @@ p {
 .button.micro,
 .ozz-fm input.micro[type=submit],
 .form input.micro[type=submit] {
-  padding: 4px 8px;
+  padding: 3px 8px;
   font-size: 13px;
   margin: 2px;
 }
@@ -86,9 +86,8 @@ p {
 .ozz-fm input.light[type=submit],
 .form input.light[type=submit] {
   background-color: #F7F9FA;
-  border: 1px solid #e0e0e0;
+  border: 1px solid rgba(136, 136, 136, 0.3);
   color: #212121;
-  border-radius: 3px;
 }
 .button.light:hover,
 .ozz-fm input.light[type=submit]:hover,
@@ -107,6 +106,7 @@ p {
 .form input.danger[type=submit] {
   background-color: #F9014E;
   color: #ffffff;
+  border-color: #c7003f;
 }
 .button.danger:hover,
 .ozz-fm input.danger[type=submit]:hover,
@@ -117,6 +117,7 @@ p {
 .ozz-fm input.green[type=submit],
 .form input.green[type=submit] {
   background-color: #02be5a;
+  border-color: #00a74e;
 }
 .button.green:hover,
 .ozz-fm input.green[type=submit]:hover,
@@ -128,17 +129,21 @@ p {
   position: fixed;
   max-width: 500px;
   top: 60px;
-  right: 42px;
+  right: 60px;
   z-index: 997;
+  transition: 0.3s ease-in-out;
+  opacity: 0;
 }
 .common-alert-bar .message {
+  opacity: 0;
+  transform: translateX(100px);
   display: block;
   padding: 16px 30px;
   font-size: 16px;
   text-align: center;
   border-radius: 5px 0 0 5px;
   transition: 0.3s ease-in-out;
-  animation: slide-from-right 0.3s ease-in-out;
+  animation: popup-anim 0.3s ease-in-out;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.9);
 }
@@ -153,6 +158,14 @@ p {
 .common-alert-bar .message.info {
   background-color: #666EE8;
   border-right: 6px solid #666EE8;
+}
+.common-alert-bar.active {
+  opacity: 1;
+}
+.common-alert-bar.active .message {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .link {
@@ -204,7 +217,7 @@ p {
   font-size: 14px;
   font-weight: 500;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 1px;
   cursor: pointer;
 }
@@ -365,7 +378,7 @@ body .left-align {
 }
 .ozz-fm__repeat,
 .form__repeat {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   padding: 4px 3px 4px 4px;
   border: 1px solid rgba(174, 182, 218, 0.5);
 }
@@ -399,7 +412,7 @@ body .left-align {
 .form__repeat-head {
   position: relative;
   width: calc(100% + 17px);
-  margin: 0 0 3px -14px;
+  margin: 0 0 5px -14px;
   height: 34px;
   background: #F7F9FA;
   cursor: move;
@@ -409,11 +422,12 @@ body .left-align {
 .form__repeat-head:after {
   position: absolute;
   content: "";
-  top: 2px;
+  top: 3px;
   width: 20px;
   height: 29px;
   background-image: url(../../icons/icons.svg);
   background-repeat: no-repeat;
+  transition: 0.2s ease-in-out;
 }
 .ozz-fm__repeat-head:before,
 .form__repeat-head:before {
@@ -433,7 +447,7 @@ body .left-align {
 }
 .ozz-fm__repeat-body,
 .form__repeat-body {
-  padding: 10px 0 20px;
+  padding: 10px 5px 20px 0;
 }
 .ozz-fm__repeat-body.close,
 .form__repeat-body.close {
@@ -463,6 +477,14 @@ body .left-align {
   font-weight: 600;
   color: #2B2E3F;
   text-align: right;
+}
+.ozz-fm__repeat-add.button,
+.ozz-fm input.ozz-fm__repeat-add[type=submit],
+.form input.ozz-fm__repeat-add[type=submit],
+.form__repeat-add.button,
+.ozz-fm input.form__repeat-add[type=submit],
+.form input.form__repeat-add[type=submit] {
+  margin-left: 2px;
 }
 .ozz-fm__repeat.single,
 .form__repeat.single {

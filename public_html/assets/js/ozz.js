@@ -24,11 +24,12 @@ class Ozz {
 
   /**
   * Ozz Form Repeater initialization
+  * @param DOM Used Block
   */
-  initRepeater() {
-    this.repeater__Accordion();
-    this.repeater__addItem();
-    this.repeater__deleteItem();
+  initRepeater(DOM=false) {
+    this.repeater__Accordion(DOM);
+    this.repeater__addItem(DOM);
+    this.repeater__deleteItem(DOM);
   }
 
   /**
@@ -142,8 +143,7 @@ class Ozz {
    */
   repeater__renameFields(specificFieldSet=false) {
     const allWrappers = specificFieldSet !== false ? specificFieldSet : document.querySelectorAll('.ozz-fm__repeat-wrapper');
-
-    allWrappers.forEach((wrapper, ind) => {
+    allWrappers.forEach((wrapper) => {
       const
         thisRepeater = wrapper.closest('.ozz-fm__repeat'),
         thisFieldSet = wrapper.querySelectorAll(':scope > .ozz-fm__repeat-fields'),

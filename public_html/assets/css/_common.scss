@@ -13,18 +13,18 @@ p {
 .button{
   cursor: pointer;
   outline: none;
-  border: none;
+  border: 1px solid rgba(color(dark), 0.2);
   display: block;
   padding: 12px 24px;
-  border-radius: 3px;
+  border-radius: 4px;
   background: color(primary);
   font-size: $font-semi-normal;
   font-family: $space;
   font-weight: 500;
   color: color(white);
+  box-shadow: 0 3px 2px -3px rgba(0,0,0,0.3), 0 -3px 8px 0 rgba(0,0,0,0.02) inset, 0 3px 8px 0 rgba(color(white), 0.3) inset;
   &:hover {
     background-color: color(primary-dark);
-    border-color: color(primary-dark);
   }
   @media screen and (min-width: 570px) {
     display: inline-block;
@@ -35,13 +35,13 @@ p {
     filter: saturate(0);
   }
   &.small {
-    padding: 8px 14px;
+    padding: 7px 14px;
     font-size: $font-normal;
   }
   &.mini {
     padding: 5px 12px;
+    margin: 2px 2px 2px 0;
     font-size: $font-small-2;
-    margin: 2px;
     &.tab-button {
       strong {
         margin-left: 6px;
@@ -49,15 +49,14 @@ p {
     }
   }
   &.micro {
-    padding: 4px 8px;
+    padding: 3px 8px;
     font-size: $font-small-1;
     margin: 2px;
   }
   &.light {
     background-color: color(light2);
-    border: 1px solid color(silver);
+    border: 1px solid rgba(color(gray1), 0.3);
     color: color(secondary);
-    border-radius: 3px;
     &:hover {
       background-color: color(light1);
     }
@@ -70,12 +69,14 @@ p {
   &.danger {
     background-color: color(danger);
     color: color(white);
+    border-color: color(danger-dark);
     &:hover {
       background-color: color(danger-dark);
     }
   }
   &.green {
     background-color: color(success);
+    border-color: color(dark-green);
     &:hover {
       background-color: color(dark-green);
     }
@@ -85,16 +86,20 @@ p {
   position: fixed;
   max-width: 500px;
   top: 60px;
-  right: 42px;
+  right: 60px;
   z-index: 997;
+  transition: .3s ease-in-out;
+  opacity: 0;
   .message {
+    opacity: 0;
+    transform: translateX(100px);
     display: block;
     padding: 16px 30px;
     font-size: $font-normal;
     text-align: center;
     border-radius: 5px 0 0 5px;
     transition: .3s ease-in-out;
-    animation: slide-from-right .3s ease-in-out;
+    animation: popup-anim .3s ease-in-out;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     background-color: rgba(color(white), 0.9);
     &.success {
@@ -109,6 +114,14 @@ p {
     &.info {
       background-color: color(primary);
       border-right: 6px solid color(primary);
+    }
+  }
+  &.active {
+    opacity: 1;
+    .message {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 }
@@ -154,7 +167,7 @@ p {
       font-size: 14px;
       font-weight: 500;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       margin: 1px;
       cursor: pointer;
       &:hover,
