@@ -4,11 +4,16 @@
   outline: none;
 }
 h1 {
+  font-family: $rub;
   font-size: $font-medium;
 }
 p {
   font-size: $font-semi-normal;
   line-height: 1.5;
+}
+label,
+strong {
+  font-family: $rub-m;
 }
 .button{
   cursor: pointer;
@@ -19,8 +24,7 @@ p {
   border-radius: 4px;
   background: color(primary);
   font-size: $font-semi-normal;
-  font-family: $space;
-  font-weight: 500;
+  font-family: $rub-m;
   color: color(white);
   box-shadow: 0 3px 2px -3px rgba(0,0,0,0.3), 0 -3px 8px 0 rgba(0,0,0,0.02) inset, 0 3px 8px 0 rgba(color(white), 0.3) inset;
   &:hover {

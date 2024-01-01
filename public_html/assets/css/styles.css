@@ -1,9 +1,28 @@
 /* ---------- VARIABLES ----------- */
 @font-face {
-  font-family: "Space Grotesk";
-  src: url("../fonts/SpaceGrotesk-VariableFont_wght.ttf") format("truetype-variations");
-  font-display: swap;
-  font-weight: 300 700;
+  font-family: "Rubik";
+  src: url("../fonts/rubik/Rubik-Regular.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Rubik-medium";
+  src: url("../fonts/rubik/Rubik-Medium.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Rubik-semi-bold";
+  src: url("../fonts/rubik/Rubik-SemiBold.ttf") format("truetype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Rubik-bold";
+  src: url("../fonts/rubik/Rubik-Bold.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Rubik-extra-bold";
+  src: url("../fonts/rubik/Rubik-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
 }
 /* ---------- COMMON ----------- */
 * {
@@ -12,12 +31,18 @@
 }
 
 h1 {
+  font-family: "Rubik", sans-serif;
   font-size: 26px;
 }
 
 p {
   font-size: 18px;
   line-height: 1.5;
+}
+
+label,
+strong {
+  font-family: "Rubik-medium", sans-serif;
 }
 
 .button, .ozz-fm .button,
@@ -32,8 +57,7 @@ p {
   border-radius: 4px;
   background: #666EE8;
   font-size: 18px;
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 500;
+  font-family: "Rubik-medium", sans-serif;
   color: #ffffff;
   box-shadow: 0 3px 2px -3px rgba(0, 0, 0, 0.3), 0 -3px 8px 0 rgba(0, 0, 0, 0.02) inset, 0 3px 8px 0 rgba(255, 255, 255, 0.3) inset;
 }
@@ -236,7 +260,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #ffffff;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 body.light-bg {
   background-color: #eeeff8;
@@ -278,10 +302,52 @@ body .left-align {
   text-align: left;
 }
 
+.cl {
+  display: inline-block;
+  margin-left: -3px;
+  margin-right: 0;
+}
+.cl-1 {
+  width: 8.3333333333%;
+}
+.cl-2 {
+  width: 16.6666666667%;
+}
+.cl-3 {
+  width: 25%;
+}
+.cl-4 {
+  width: 33.3333333333%;
+}
+.cl-5 {
+  width: 41.6666666667%;
+}
+.cl-6 {
+  width: 50%;
+}
+.cl-7 {
+  width: 58.3333333333%;
+}
+.cl-8 {
+  width: 66.6666666667%;
+}
+.cl-9 {
+  width: 75%;
+}
+.cl-10 {
+  width: 83.3333333333%;
+}
+.cl-11 {
+  width: 91.6666666667%;
+}
+.cl-12 {
+  width: 100%;
+}
+
 /* ----------FORM ----------- */
 .ozz-fm *,
 .form * {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 16px;
 }
 .ozz-fm .form-item,
@@ -464,7 +530,7 @@ body .left-align {
   margin-bottom: 6px;
   padding: 0 6px;
   font-size: 15px;
-  font-weight: 600;
+  font-family: "Rubik-medium", sans-serif;
   color: #666EE8;
 }
 .ozz-fm__repeat-number,
@@ -474,7 +540,7 @@ body .left-align {
   top: 0;
   padding: 7px 4px;
   height: 34px;
-  font-weight: 600;
+  font-family: "Rubik", sans-serif;
   color: #2B2E3F;
   text-align: right;
 }

@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: color(white);
-  font-family: $space;
+  font-family: $rub;
   &.light-bg {
     background-color: color(light1);
   }
@@ -42,5 +42,49 @@ body {
   }
   .left-align {
     text-align: left;
+  }
+}
+
+// Common 12 column grid
+.cl {
+  $col: calc(100% / 12);
+  display: inline-block;
+  margin-left: -3px;
+  margin-right: 0;
+  &-1 {
+    width: $col;
+  }
+  &-2 {
+    width: $col * 2;
+  }
+  &-3 {
+    width: $col * 3;
+  }
+  &-4 {
+    width: $col * 4;
+  }
+  &-5 {
+    width: $col * 5;
+  }
+  &-6 {
+    width: $col * 6;
+  }
+  &-7 {
+    width: $col * 7;
+  }
+  &-8 {
+    width: $col * 8;
+  }
+  &-9 {
+    width: $col * 9;
+  }
+  &-10 {
+    width: $col * 10;
+  }
+  &-11 {
+    width: $col * 11;
+  }
+  &-12 {
+    width: $col * 12;
   }
 }

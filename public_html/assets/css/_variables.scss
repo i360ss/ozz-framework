@@ -11,13 +11,37 @@ $breakpoints: (
 
 // Font
 @font-face {
-  font-family: 'Space Grotesk';
-  src: url('#{$font-path}SpaceGrotesk-VariableFont_wght.ttf') format('truetype-variations');
-  font-display: swap;
-  font-weight: 300 700;
+  font-family: 'Rubik';
+  src: url('#{$font-path}rubik/Rubik-Regular.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Rubik-medium';
+  src: url('#{$font-path}rubik/Rubik-Medium.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Rubik-semi-bold';
+  src: url('#{$font-path}rubik/Rubik-SemiBold.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Rubik-bold';
+  src: url('#{$font-path}rubik/Rubik-Bold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Rubik-extra-bold';
+  src: url('#{$font-path}rubik/Rubik-ExtraBold.ttf') format('truetype');
+  font-weight: 700;
 }
 
-$space: 'Space Grotesk', sans-serif;
+$rub: 'Rubik', sans-serif;
+$rub-l: 'Rubik', sans-serif;
+$rub-m: 'Rubik-medium', sans-serif;
+$rub-sb: 'Rubik-semi-bold', sans-serif;
+$rub-b: 'Rubik-bold', sans-serif;
+$rub-eb: 'Rubik-extra-bold', sans-serif;
 
 // Font sizes
 $font-small: 12px;

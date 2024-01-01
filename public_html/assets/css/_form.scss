@@ -2,7 +2,7 @@
 .ozz-fm,
 .form {
   * {
-    font-family: $space;
+    font-family: $rub;
     font-size: $font-normal;
   }
   .form-item {
@@ -150,7 +150,7 @@
       margin-bottom: 6px;
       padding: 0 6px;
       font-size: $font-small-3;
-      font-weight: 600;
+      font-family: $rub-m;
       color: color(primary);
     }
     &-number {
@@ -159,7 +159,7 @@
       top: 0;
       padding: 7px 4px;
       height: 34px;
-      font-weight: 600;
+      font-family: $rub;
       color: color(dark1);
       text-align: right;
     }
