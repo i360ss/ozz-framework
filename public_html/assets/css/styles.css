@@ -400,6 +400,10 @@ body .left-align {
   border-color: #F9014E;
   background-color: rgba(249, 1, 78, 0.03);
 }
+.ozz-fm textarea,
+.form textarea {
+  line-height: 1.5rem;
+}
 .ozz-fm .message,
 .form .message {
   display: grid;
@@ -504,7 +508,7 @@ body .left-align {
 .form__repeat-head:after {
   left: 40px;
   background-position: -118px -111px;
-  transform: rotate(180deg);
+  transform: rotate(-180deg);
   transform-origin: center;
 }
 .ozz-fm__repeat-head.close:after,

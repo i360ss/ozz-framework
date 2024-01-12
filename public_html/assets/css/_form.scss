@@ -34,6 +34,9 @@
       background-color: rgba(color(danger), 0.03);
     }
   }
+  textarea {
+    line-height: 1.5rem;
+  }
   .button,
   input[type="submit"] {
     @extend .button;
@@ -126,7 +129,7 @@
       &:after {
         left: 40px;
         background-position: -118px -111px;
-        transform: rotate(180deg);
+        transform: rotate(-180deg);
         transform-origin: center;
       }
       &.close {

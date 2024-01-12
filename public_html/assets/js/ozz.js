@@ -73,7 +73,7 @@ class Ozz {
         newItem.setAttribute('id', `rptf-${this.randomString(18)}`);
 
         // Clear values and modify repeater item
-        const itemFields = newItem.querySelectorAll('input, textarea, select');
+        const itemFields = newItem.querySelectorAll('input, textarea, button, progress, meter, select, datalist');
         itemFields.forEach(elm => {
           if (elm.tagName === 'INPUT' || elm.tagName === 'TEXTAREA') {
             elm.value = '';
@@ -93,6 +93,9 @@ class Ozz {
             element.querySelector('.ozz-fm__repeat-remove').removeAttribute('disabled');
           });
         });
+
+        // Clear and re-init Wysiwyg editors
+        this.repeater__clearAndInitOzzWyg(newItem);
 
         newItem.querySelector('.ozz-fm__repeat-number').innerHTML = thisItemCount.length + 1;
 
@@ -164,7 +167,7 @@ class Ozz {
 
           if (isSingle === false) {
             // Rename field names
-            const itemFields = fieldSet.querySelectorAll('input, textarea, select');
+            const itemFields = fieldSet.querySelectorAll('input, textarea, button, progress, meter, select, datalist');
             itemFields.forEach(elm => {
               const newName = elm.name.replace(new RegExp(`${rptNameOnly}_\\d+_`), `${rptNameOnly}_${i}_`);
               elm.name = newName;
@@ -173,6 +176,21 @@ class Ozz {
         }
       });
     });
+  }
+
+  /**
+   * Clear and Re-init wysiwyg editor on added by repeater
+   */
+  repeater__clearAndInitOzzWyg(DOM=false) {
+    if (typeof OzzWyg === 'function') {
+      const editors = DOM === false ? document.querySelectorAll('[data-ozz-wyg]') : DOM.querySelectorAll('[data-ozz-wyg]');
+      editors.forEach(editor => {
+        const id = `i-${Math.random().toString(36).substring(2, 6+2)}`;
+        editor.innerHTML = '';
+        editor.setAttribute('data-editor', id);
+        new OzzWyg({ selector: editor });
+      });
+    }
   }
 
   /**
