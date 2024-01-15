@@ -1,4 +1,6 @@
 /* ---------- VARIABLES ----------- */
+@use 'sass:math';
+
 // Breakpoints
 $breakpoints: (
   xs: 320px,
@@ -87,6 +89,24 @@ $shadow2: 0 3px 6px 0 rgba(0,0,100,0.05);
 $radius1: 5px;
 
 // Functions
-@function color($color)  {
+@function color($color) {
   @return map-get($colors, $color);
+}
+
+// Media query
+@mixin screen ($size) {
+  @media screen and ( min-width: map-get($breakpoints, $size) ) {
+    @content;
+  }
+}
+
+// Encode color strings
+@function encode-color($string) {
+  @if type-of($string) == 'color' and str-index(#{$string}, '#') == 1 {
+    $hex: str-slice(ie-hex-str($string), 4);
+    $string: unquote('#{$hex}');
+    @return '%23' + $string;
+  }
+
+  @return $string;
 }
