@@ -1,4 +1,5 @@
 /vendor/
+/node_modules/
 /public_html/uploads/*
 !/public_html/uploads/.gitkeep 
 ~Ex/

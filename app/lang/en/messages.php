@@ -20,6 +20,7 @@ return [
   'email_verification_mail_sent' => 'Awesome! Please check your email to verify your account',
   'password_reset_link_sent' => 'We have sent you a password reset link. Please check your email',
   'email_change_success' => 'Your email address has changed successfully!',
+  'profile_update_success' => 'Profile details updated successfully!',
 
   // Email Notifications
   'email_verification_mail_title' => 'Verify your email address',
