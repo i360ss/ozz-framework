@@ -25,6 +25,7 @@ return [
   'invalid_array_key' => 'Invalid array key provided',
   'invalid_token' => 'Invalid :type token',
   'no_space' => 'Value should not contain any spaces',
+  'already_exist' => 'Entry already exist',
 
   // Password Errors
   'normal_password' => 'Spaces are not allowed in password!',

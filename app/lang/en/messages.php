@@ -5,6 +5,9 @@ return [
    * All your application's translatable strings should be here
    */
 
+  // Common success
+  'created_success' => 'Created successfully!',
+
   // File & upload related messages
   'image_upload_success' => 'Image uploaded successfully!',
   'file_upload_success' => 'File uploaded successfully!',

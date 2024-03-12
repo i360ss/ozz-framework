@@ -2,7 +2,8 @@
 /**
  * Ozz file generating commands will use this functions to get contents at first
  * It will use the default fallback contents if any of below functions are not defined or commented.
- * You can define the code for the following files: (view, base-layout, controller, model, component, middleware, email-template)
+ * You can define the code for the following files:
+ * view, base-layout, controller, model, component, middleware, email-template
  */
 
 

@@ -2,4 +2,6 @@
 **/node_modules/
 /public_html/uploads/*
 !/public_html/uploads/.gitkeep 
-~Ex/
+/public_html/assets/css/*
+/public_html/assets/js/*
+**/package-lock.json

@@ -19,7 +19,7 @@ function isDirectoryExists(directory) {
 }
 
 function compileSass(src, dest, map) {
-  return gulp.src(src)
+  return gulp.src(src, { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.', { sourceRoot: '/src/'+map }))
@@ -27,7 +27,7 @@ function compileSass(src, dest, map) {
 }
 
 function minifyCSS(src, dest, map) {
-  return gulp.src(src)
+  return gulp.src(src, { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(cleanCSS())
     .pipe(concat(dest))
@@ -36,7 +36,7 @@ function minifyCSS(src, dest, map) {
 }
 
 function compileJS(src, dest, fileName, map, webpackFile) {
-  return gulp.src(src)
+  return gulp.src(src, { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(webpack(require(webpackFile)))
     .pipe(babel({ presets: ['@babel/preset-env'] }))
@@ -47,7 +47,7 @@ function compileJS(src, dest, fileName, map, webpackFile) {
 }
 
 function minifyJS(src, dist, filename, map) {
-  return gulp.src(src)
+  return gulp.src(src, { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .on('error', function (err) {
@@ -70,12 +70,26 @@ gulp.task('admin-sass', () => {
   if (isDirectoryExists(__dirname+'/admin')) {
     return compileSass(__dirname+'/admin/scss/admin.scss', `${dist}css`, '/admin/scss');
   }
-  console.log('Admin directory not found. Skipping admin SCSS compilation.');
   return Promise.resolve();
 });
-gulp.task('minify-admin-css', () => minifyCSS(`${dist}css/admin.css`, 'admin.min.css', '/admin/scss'));
-gulp.task('admin-js', () => compileJS(__dirname+'/admin/js/admin.js', `${dist}js`, 'admin.js', '/admin/js', './admin-webpack.config.js'));
-gulp.task('minify-admin-js', () => minifyJS(`${dist}js/admin.js`, `${dist}js`, 'admin.min.js', '/admin/js'));
+gulp.task('minify-admin-css', () => {
+  if (isDirectoryExists(__dirname+'/admin')) {
+    return minifyCSS(`${dist}css/admin.css`, 'admin.min.css', '/admin/scss');
+  }
+  return Promise.resolve();
+});
+gulp.task('admin-js', () => {
+  if (isDirectoryExists(__dirname+'/admin')) {
+    return compileJS(__dirname+'/admin/js/admin.js', `${dist}js`, 'admin.js', '/admin/js', './admin-webpack.config.js');
+  }
+  return Promise.resolve();
+});
+gulp.task('minify-admin-js', () => {
+  if (isDirectoryExists(__dirname+'/admin')) {
+    return minifyJS(`${dist}js/admin.js`, `${dist}js`, 'admin.min.js', '/admin/js');
+  }
+  return Promise.resolve();
+});
 
 // Watch
 function watchFiles() {
