@@ -7,6 +7,8 @@ return [
 
   // Common success
   'created_success' => 'Created successfully!',
+  'updated_success' => 'Updated successfully!',
+  'deleted_success' => 'Deleted successfully!',
 
   // File & upload related messages
   'image_upload_success' => 'Image uploaded successfully!',

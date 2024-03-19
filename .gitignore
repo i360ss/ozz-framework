@@ -1,7 +1,5 @@
 /vendor/
 **/node_modules/
 /public_html/uploads/*
-!/public_html/uploads/.gitkeep 
-/public_html/assets/css/*
-/public_html/assets/js/*
+!/public_html/uploads/.gitkeep
 **/package-lock.json
