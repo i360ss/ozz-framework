@@ -59,3 +59,35 @@ body {
     }
   }
 }
+/* Grid Row */
+.row {
+  .col {
+    &:last-of-type {
+      padding-right: 0;
+    }
+  }
+}
+.col {
+  position: relative;
+  float: left;
+  min-height: 1px;
+  padding: 0 15px 0 0;
+  &-1 { width: 8.33333333%; }
+  &-2 { width: 16.66666667%; }
+  &-3 { width: 25%; }
+  &-4 { width: 33.33333333%; }
+  &-5 { width: 41.66666667%; }
+  &-6 { width: 50%; }
+  &-7 { width: 58.33333333%; }
+  &-8 { width: 66.66666667%; }
+  &-9 { width: 75%; }
+  &-10 { width: 83.33333333%; }
+  &-11 { width: 91.66666667%; }
+  &-12 { width: 100%; }
+}
+/* Clearfix */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

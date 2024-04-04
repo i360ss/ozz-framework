@@ -428,6 +428,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       /***/
     }),
+    /***/"./admin/js/modules/GlobalSearch.js": (
+    /*!******************************************!*\
+      !*** ./admin/js/modules/GlobalSearch.js ***!
+      \******************************************/
+    /***/
+    function adminJsModulesGlobalSearchJs(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export */
+      __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */"default": function _default() {
+          return __WEBPACK_DEFAULT_EXPORT__;
+        }
+        /* harmony export */
+      });
+      /* harmony import */
+      var _utils_Fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__( /*! ../utils/Fetch */"./admin/js/utils/Fetch.js");
+
+      /* harmony default export */
+      var __WEBPACK_DEFAULT_EXPORT__ = function __WEBPACK_DEFAULT_EXPORT__() {
+        var DOM = document.querySelector('.cms-global-search'),
+          searchField = DOM.querySelector('input[name="cms-global-search-field"]'),
+          resultWrapper = DOM.querySelector('.cms-global-search__result-wrapper'),
+          resultDOM = DOM.querySelector('.cms-global-search__result');
+        searchField.addEventListener('focus', function () {
+          resultWrapper.classList.add('active');
+        });
+        searchField.addEventListener('blur', function () {
+          if (searchField.value == '') {
+            resultWrapper.classList.remove('active');
+          }
+        });
+        var processing = false;
+        searchField.addEventListener('input', function (e) {
+          e.preventDefault();
+          resultWrapper.classList.add('active');
+          if (searchField.value !== '') {
+            if (processing === false) {
+              var getResult = (0, _utils_Fetch__WEBPACK_IMPORTED_MODULE_0__.send)(DATA.CMS_URL + 'global-search', 'POST', JSON.stringify({
+                keyword: searchField.value
+              }));
+              getResult.then(function (response) {
+                var result = '';
+                response.forEach(function (item) {
+                  result += "<li>\n              <a href=\"".concat(item.url, "\">\n                <span>").concat(item.title, "</span>\n                <span class=\"button micro light\">").concat(item.type, "</span>\n              </a>\n            </li>");
+                });
+                resultDOM.style.opacity = 1;
+                resultDOM.innerHTML = result;
+              });
+              processing = true;
+              setTimeout(function () {
+                processing = false;
+              }, 500);
+            }
+          } else {
+            processing = false;
+            resultDOM.innerHTML = '';
+            resultDOM.style.opacity = 0;
+          }
+        });
+      };
+
+      /***/
+    }),
     /***/"./admin/js/modules/InitOzzWyg.js": (
     /*!****************************************!*\
       !*** ./admin/js/modules/InitOzzWyg.js ***!
@@ -493,10 +556,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             // Media item Embed DOM
             var fileInfoThumbnail = (0, _EmbedMedia__WEBPACK_IMPORTED_MODULE_0__["default"])(fileInfo);
             // File Info DOM
-            var fileInfoDOM = "<div class=\"ozz-media-manager__info\">\n      <div class=\"ozz-media-manager__info-thumbnail\">".concat(fileInfoThumbnail, "</div>\n        <ul class=\"ozz-media-manager__info-info\">\n          <li><strong>Name:</strong> ").concat(fileInfo.name, "</li>\n          <li><strong>Size:</strong> ").concat(fileInfo.size, "</li>\n          <li><strong>URL:</strong> <a href=\"").concat(fileInfo.absolute_url, "\" class=\"link\" target=\"_blank\">").concat(fileInfo.absolute_url, "</a></li>\n          <li><strong>Created:</strong> ").concat(fileInfo.created, "</li>\n          <li><strong>Modified:</strong> ").concat(fileInfo.modified, "</li>\n          <li><strong>Access:</strong> ").concat(fileInfo.access, "</li>\n          <li>\n            <form action=\"/admin/media/action?q=delete_file\" method=\"post\">\n              <input type=\"hidden\" value=\"").concat(fileInfo.dir + fileInfo.name, "\" name=\"ozz_media_file_name_delete\">\n              <input type=\"submit\" value=\"Delete File\" class=\"button mini danger\">\n            </form>\n          </li>\n        </ul>\n      </div>");
+            var fileInfoDOM = "<div class=\"ozz-media-manager__info\">\n      <div class=\"ozz-media-manager__info-thumbnail\">".concat(fileInfoThumbnail, "</div>\n        <ul class=\"ozz-media-manager__info-info\">\n          <li><strong>Name:</strong> ").concat(fileInfo.name, "</li>\n          <li><strong>Size:</strong> ").concat(fileInfo.size, "</li>\n          <li><strong>URL:</strong> <a href=\"").concat(fileInfo.absolute_url, "\" class=\"link\" target=\"_blank\">").concat(fileInfo.absolute_url, "</a></li>\n          <li><strong>Created:</strong> ").concat(fileInfo.created, "</li>\n          <li><strong>Modified:</strong> ").concat(fileInfo.modified, "</li>\n          <li><strong>Access:</strong> ").concat(fileInfo.access, "</li>\n          <li>\n            <form action=\"").concat(DATA.CMS_URL, "media/action?q=delete_file\" method=\"post\" class=\"media-delete-form\">\n              <input type=\"hidden\" value=\"").concat(fileInfo.dir + fileInfo.name, "\" name=\"ozz_media_file_name_delete\">\n              <input type=\"submit\" value=\"Delete File\" class=\"button mini danger\">\n            </form>\n          </li>\n        </ul>\n      </div>");
             mediaViewer.innerHTML = fileInfoDOM;
             MediaManager.classList.add('viewer-active');
             mediaViewer.classList.add('active');
+            mediaViewer.querySelector('form.media-delete-form').addEventListener('submit', function (e) {
+              if (!confirm('The File will be deleted permanently. Are you sure?')) {
+                e.preventDefault();
+              }
+            });
           });
         });
         // Media Actions
@@ -892,12 +960,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       /* harmony default export */
       var __WEBPACK_DEFAULT_EXPORT__ = function __WEBPACK_DEFAULT_EXPORT__() {
+        var body = document.querySelector('body');
         var collapseNav = function collapseNav(navbar) {
           navbar.classList.add('collapsed');
+          body.classList.add('nav-collapsed');
           (0, _utils_State__WEBPACK_IMPORTED_MODULE_0__.SetState)('nav_collapsed', true);
         };
         var revealNav = function revealNav(navbar) {
           navbar.classList.remove('collapsed');
+          body.classList.remove('nav-collapsed');
           (0, _utils_State__WEBPACK_IMPORTED_MODULE_0__.SetState)('nav_collapsed', false);
         };
         var navbar = document.querySelector('.cms-nav'),
@@ -1323,7 +1394,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       /* harmony default export */
       var __WEBPACK_DEFAULT_EXPORT__ = function __WEBPACK_DEFAULT_EXPORT__() {
-        var $base_url = '/admin/taxonomy/';
+        var $base_url = "".concat(DATA.CMS_URL, "taxonomy/");
         var initTaxonomy = function initTaxonomy() {
           // Delete Taxonomy
           var taxonomyDeleteTriggers = document.querySelectorAll('.taxonomy-listing__delete');
@@ -6132,50 +6203,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     /* harmony import */
     var _modules_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__( /*! ./modules/NavBar */"./admin/js/modules/NavBar.js");
     /* harmony import */
-    var _modules_AlertBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__( /*! ./modules/AlertBar */"./admin/js/modules/AlertBar.js");
+    var _modules_GlobalSearch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__( /*! ./modules/GlobalSearch */"./admin/js/modules/GlobalSearch.js");
     /* harmony import */
-    var _modules_RepeaterField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__( /*! ./modules/RepeaterField */"./admin/js/modules/RepeaterField.js");
+    var _modules_AlertBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__( /*! ./modules/AlertBar */"./admin/js/modules/AlertBar.js");
     /* harmony import */
-    var _modules_PostTabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__( /*! ./modules/PostTabs */"./admin/js/modules/PostTabs.js");
+    var _modules_RepeaterField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__( /*! ./modules/RepeaterField */"./admin/js/modules/RepeaterField.js");
     /* harmony import */
-    var _modules_BlockEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__( /*! ./modules/BlockEditor */"./admin/js/modules/BlockEditor.js");
+    var _modules_PostTabs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__( /*! ./modules/PostTabs */"./admin/js/modules/PostTabs.js");
     /* harmony import */
-    var _modules_MediaManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__( /*! ./modules/MediaManager */"./admin/js/modules/MediaManager.js");
+    var _modules_BlockEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__( /*! ./modules/BlockEditor */"./admin/js/modules/BlockEditor.js");
     /* harmony import */
-    var _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__( /*! ./modules/MediaManagerPopup */"./admin/js/modules/MediaManagerPopup.js");
+    var _modules_MediaManager__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__( /*! ./modules/MediaManager */"./admin/js/modules/MediaManager.js");
     /* harmony import */
-    var _modules_MultiSelector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__( /*! ./modules/MultiSelector */"./admin/js/modules/MultiSelector.js");
+    var _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__( /*! ./modules/MediaManagerPopup */"./admin/js/modules/MediaManagerPopup.js");
     /* harmony import */
-    var _modules_ChangeTheme__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__( /*! ./modules/ChangeTheme */"./admin/js/modules/ChangeTheme.js");
+    var _modules_MultiSelector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__( /*! ./modules/MultiSelector */"./admin/js/modules/MultiSelector.js");
     /* harmony import */
-    var _modules_SlugUpdate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__( /*! ./modules/SlugUpdate */"./admin/js/modules/SlugUpdate.js");
+    var _modules_ChangeTheme__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__( /*! ./modules/ChangeTheme */"./admin/js/modules/ChangeTheme.js");
     /* harmony import */
-    var _modules_RelocatePostInfoComp__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__( /*! ./modules/RelocatePostInfoComp */"./admin/js/modules/RelocatePostInfoComp.js");
+    var _modules_SlugUpdate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__( /*! ./modules/SlugUpdate */"./admin/js/modules/SlugUpdate.js");
     /* harmony import */
-    var _modules_InitOzzWyg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__( /*! ./modules/InitOzzWyg */"./admin/js/modules/InitOzzWyg.js");
+    var _modules_RelocatePostInfoComp__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__( /*! ./modules/RelocatePostInfoComp */"./admin/js/modules/RelocatePostInfoComp.js");
     /* harmony import */
-    var _modules_Taxonomy__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__( /*! ./modules/Taxonomy */"./admin/js/modules/Taxonomy.js");
+    var _modules_InitOzzWyg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__( /*! ./modules/InitOzzWyg */"./admin/js/modules/InitOzzWyg.js");
     /* harmony import */
-    var _modules_Forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__( /*! ./modules/Forms */"./admin/js/modules/Forms.js");
+    var _modules_Taxonomy__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__( /*! ./modules/Taxonomy */"./admin/js/modules/Taxonomy.js");
+    /* harmony import */
+    var _modules_Forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__( /*! ./modules/Forms */"./admin/js/modules/Forms.js");
     // Modules
 
     (function () {
       // Ozz CMS Modules
       (0, _modules_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"])();
-      (0, _modules_AlertBar__WEBPACK_IMPORTED_MODULE_1__["default"])();
-      (0, _modules_PostTabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
-      (0, _modules_BlockEditor__WEBPACK_IMPORTED_MODULE_4__["default"])();
-      (0, _modules_MediaManager__WEBPACK_IMPORTED_MODULE_5__["default"])();
-      (0, _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_6__["default"])();
-      (0, _modules_MultiSelector__WEBPACK_IMPORTED_MODULE_7__["default"])();
-      (0, _modules_ChangeTheme__WEBPACK_IMPORTED_MODULE_8__["default"])();
-      (0, _modules_SlugUpdate__WEBPACK_IMPORTED_MODULE_9__["default"])();
-      (0, _modules_RelocatePostInfoComp__WEBPACK_IMPORTED_MODULE_10__["default"])();
-      (0, _modules_InitOzzWyg__WEBPACK_IMPORTED_MODULE_11__["default"])();
-      (0, _modules_Taxonomy__WEBPACK_IMPORTED_MODULE_12__["default"])();
-      (0, _modules_Forms__WEBPACK_IMPORTED_MODULE_13__["default"])();
-      var repeaterField = new _modules_RepeaterField__WEBPACK_IMPORTED_MODULE_2__["default"]();
-      repeaterField.initRepeater(false, _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_6__["default"]);
+      (0, _modules_GlobalSearch__WEBPACK_IMPORTED_MODULE_1__["default"])();
+      (0, _modules_AlertBar__WEBPACK_IMPORTED_MODULE_2__["default"])();
+      (0, _modules_PostTabs__WEBPACK_IMPORTED_MODULE_4__["default"])();
+      (0, _modules_BlockEditor__WEBPACK_IMPORTED_MODULE_5__["default"])();
+      (0, _modules_MediaManager__WEBPACK_IMPORTED_MODULE_6__["default"])();
+      (0, _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_7__["default"])();
+      (0, _modules_MultiSelector__WEBPACK_IMPORTED_MODULE_8__["default"])();
+      (0, _modules_ChangeTheme__WEBPACK_IMPORTED_MODULE_9__["default"])();
+      (0, _modules_SlugUpdate__WEBPACK_IMPORTED_MODULE_10__["default"])();
+      (0, _modules_RelocatePostInfoComp__WEBPACK_IMPORTED_MODULE_11__["default"])();
+      (0, _modules_InitOzzWyg__WEBPACK_IMPORTED_MODULE_12__["default"])();
+      (0, _modules_Taxonomy__WEBPACK_IMPORTED_MODULE_13__["default"])();
+      (0, _modules_Forms__WEBPACK_IMPORTED_MODULE_14__["default"])();
+      var repeaterField = new _modules_RepeaterField__WEBPACK_IMPORTED_MODULE_3__["default"]();
+      repeaterField.initRepeater(false, _modules_MediaManagerPopup__WEBPACK_IMPORTED_MODULE_7__["default"]);
     })();
   })();
 
