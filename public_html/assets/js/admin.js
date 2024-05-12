@@ -190,12 +190,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             usedBlocks.forEach(function (block, ind) {
               var thisBlockFields = block.querySelectorAll('input, textarea, button, progress, meter, select, datalist, [data-ozz-wyg]');
               thisBlockFields.forEach(function (field) {
+                var newName;
                 if (field.name) {
-                  var newName = "i-".concat(ind, "_").concat(field.name.replace(/^i-\d+_/, ''));
+                  newName = "i-".concat(ind, "__").concat(field.name.replace(/^i-\d+__/, ''));
                   field.name = newName;
                 } else if (field.getAttribute('data-field-name')) {
-                  var _newName = "i-".concat(ind, "_").concat(field.getAttribute('data-field-name').replace(/^i-\d+_/, ''));
-                  field.setAttribute('data-field-name', _newName);
+                  newName = "i-".concat(ind, "__").concat(field.getAttribute('data-field-name').replace(/^i-\d+__/, ''));
+                  field.setAttribute('data-field-name', newName);
+                }
+
+                // Update Field ID
+                field.id = newName;
+
+                // Update Label for
+                if (field.closest('.block-editor-field').querySelector('label')) {
+                  field.closest('.block-editor-field').querySelector('label').setAttribute('for', newName);
+                }
+
+                // Update media selector field ID and data attr
+                var mediaSelector = field.closest('.ozz-fm__media-selector');
+                if (mediaSelector) {
+                  var trigger = mediaSelector.querySelector('[data-field-name]');
+                  trigger.setAttribute('data-field-name', newName);
                 }
               });
             });
@@ -605,17 +621,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
 
         /**
-        * Build Media manager and popup
-        * @param {object} media Media elements
-        * @param {object} trigger Selector Trigger clicked event
-        */
+         * Build Media manager and popup
+         * @param {object} media Media elements
+         * @param {object} trigger Selector Trigger clicked event
+         */
         var BuildMediaManager = function BuildMediaManager(media) {
           var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
           var treeDOM = media.tree.join(' / '),
             itemsDOM = '',
             currentValues = false;
           if (trigger) {
-            var fieldName = trigger.target.getAttribute('data-fieldname'),
+            var fieldName = trigger.target.getAttribute('data-field-name'),
               actualField = document.getElementById(fieldName),
               value = actualField.value;
             currentValues = value !== '' ? JSON.parse(value) : '';
@@ -680,7 +696,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 values.push(val);
               });
               var finalValue = JSON.stringify(values),
-                fieldName = trigger.target.getAttribute('data-fieldname'),
+                fieldName = trigger.target.getAttribute('data-field-name'),
                 actualField = document.getElementById(fieldName);
               actualField.value = finalValue;
               (0, _utils_Popup__WEBPACK_IMPORTED_MODULE_0__.closePopup)();
@@ -710,7 +726,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           thisWrapper.innerHTML = listingDOM;
         };
 
-        // Initiate an trigger
+        // Initiate a trigger
         DOM = DOM !== false ? DOM : document;
         var selectors = DOM.querySelectorAll('.ozz-fm__media-selector .media-selector-trigger');
         var loadMedia = /*#__PURE__*/function () {
@@ -742,7 +758,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           mediaSelector.addEventListener('click', loadMedia);
 
           // List down selected media items
-          var fieldName = mediaSelector.getAttribute('data-fieldname');
+          var fieldName = mediaSelector.getAttribute('data-field-name');
           var actualField = document.getElementById(fieldName);
           listSelectedMedia(actualField);
         });
@@ -1217,7 +1233,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                   if (thisRepeater.classList.contains('single') === false) {
                     itemFields.forEach(function (elm) {
-                      var newName = elm.name.replace(/_\d+_(?=[^_]*$)/, "_".concat(thisItemCount.length, "_"));
+                      var newName = elm.name.replace(/__\d+__(?=[^__]*$)/, "__".concat(thisItemCount.length, "__"));
                       elm.name = newName;
                     });
                   }
@@ -1293,7 +1309,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 thisFieldSet = wrapper.querySelectorAll(':scope > .ozz-fm__repeat-fields'),
                 isSingle = thisRepeater.classList.contains('single'),
                 rptName = thisRepeater.getAttribute('data-rpt'),
-                rptNameParts = rptName.split('_'),
+                rptNameParts = rptName.split('__'),
                 rptNameOnly = rptNameParts[rptNameParts.length - 1];
               thisFieldSet.forEach(function (fieldSet, i) {
                 if (fieldSet) {
@@ -1305,7 +1321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     // Rename field names
                     var itemFields = fieldSet.querySelectorAll('input, textarea, button, progress, meter, select, datalist');
                     itemFields.forEach(function (elm) {
-                      var newName = elm.name.replace(new RegExp("".concat(rptNameOnly, "_\\d+_")), "".concat(rptNameOnly, "_").concat(i, "_"));
+                      var newName = elm.name.replace(new RegExp("".concat(rptNameOnly, "__\\d+__")), "".concat(rptNameOnly, "__").concat(i, "__"));
                       elm.name = newName;
                     });
                   }
