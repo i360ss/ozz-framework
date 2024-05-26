@@ -11,8 +11,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "ozz/core": "^0.1.43",
-        "phpmailer/phpmailer": "^6.7"
+        "ozz/core": "^0.1.44",
+        "phpmailer/phpmailer": "^6.9.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.0"
