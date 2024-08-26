@@ -1643,13 +1643,13 @@ a {
   background-color: rgba(71, 151, 255, 0.1);
 }
 .label.dot {
+  display: inline-block;
+  padding: 0;
+  transform: translateY(-5px);
   width: 8px;
   height: 8px;
   background: #02be5a;
   border-radius: 50%;
-  display: inline-block;
-  padding: 0;
-  transform: translateY(-5px);
 }
 .label.dot.trash, .label.dot.danger {
   background: #F9014E;
@@ -2924,6 +2924,12 @@ body.nav-collapsed .cms-global-search__result {
   font-size: 14px;
   color: #3d4053;
 }
+.post-edit-view__widget.info .item.user-thumbnail img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .post-edit-view__widget.info .item:not(.available-translations, .language-duplicator, .delete-post) {
   display: flex;
   flex-direction: row;
@@ -3896,10 +3902,13 @@ body.ozz-cms[data-theme=dark] .listing-s2 table tbody tr td .title {
   color: #e0e0e0;
 }
 body.ozz-cms[data-theme=dark] .listing-s2 table tbody tr:hover {
-  background: #1f222e;
+  background: #3d4053;
 }
 body.ozz-cms[data-theme=dark] .listing-s2 table tbody tr:hover td .title {
   color: #ffffff;
+}
+body.ozz-cms[data-theme=dark] .listing-s2 table tbody tr:hover td .icon-button {
+  filter: brightness(1.4);
 }
 body.ozz-cms[data-theme=dark] .post-edit-view__widget {
   background: #2B2E3F;
