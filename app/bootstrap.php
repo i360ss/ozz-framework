@@ -9,6 +9,8 @@ $APP = new AppInit();
 $EXCEPTION = new ExceptionHandler();
 $DEBUG_BAR = new DebugBar();
 
+$EXCEPTION->checkForCommonExceptions();
+
 // Default Routes
 require __DIR__.'/../app/Route.php';
 
