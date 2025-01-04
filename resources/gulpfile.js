@@ -6,17 +6,8 @@ const uglify = require('gulp-uglify');
 const cleanCSS = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const webpack = require('webpack-stream');
-const fs = require('fs');
 
-const dist = `${__dirname}/../assets/`;
-
-function isDirectoryExists(directory) {
-  try {
-    return fs.statSync(directory).isDirectory();
-  } catch (err) {
-    return false;
-  }
-}
+const dist = `${__dirname}/../public_html/assets/`;
 
 function compileSass(src, dest, map) {
   return gulp.src(src, { allowEmpty: true })
@@ -65,39 +56,11 @@ gulp.task('minify-css', () => minifyCSS(`${dist}css/style.css`, 'style.min.css',
 gulp.task('js', () => compileJS(__dirname+'/js/app.js', `${dist}js`, 'app.js', '/js', './webpack.config.js'));
 gulp.task('minify-js', () => minifyJS(`${dist}js/app.js`, `${dist}js`, 'app.min.js', '/js'));
 
-// Admin CMS Compilation
-gulp.task('admin-sass', () => {
-  if (isDirectoryExists(__dirname+'/admin')) {
-    return compileSass(__dirname+'/admin/scss/admin.scss', `${dist}css`, '/admin/scss');
-  }
-  return Promise.resolve();
-});
-gulp.task('minify-admin-css', () => {
-  if (isDirectoryExists(__dirname+'/admin')) {
-    return minifyCSS(`${dist}css/admin.css`, 'admin.min.css', '/admin/scss');
-  }
-  return Promise.resolve();
-});
-gulp.task('admin-js', () => {
-  if (isDirectoryExists(__dirname+'/admin')) {
-    return compileJS(__dirname+'/admin/js/admin.js', `${dist}js`, 'admin.js', '/admin/js', './admin-webpack.config.js');
-  }
-  return Promise.resolve();
-});
-gulp.task('minify-admin-js', () => {
-  if (isDirectoryExists(__dirname+'/admin')) {
-    return minifyJS(`${dist}js/admin.js`, `${dist}js`, 'admin.min.js', '/admin/js');
-  }
-  return Promise.resolve();
-});
-
 // Watch
 function watchFiles() {
   gulp.watch(__dirname+'/scss/**/*.scss', gulp.series('sass', 'minify-css'));
   gulp.watch(__dirname+'/js/**/*.js', gulp.series('js', 'minify-js'));
-  gulp.watch(__dirname+'/admin/scss/**/*.scss', gulp.series('admin-sass', 'minify-admin-css'));
-  gulp.watch(__dirname+'/admin/js/**/*.js', gulp.series('admin-js', 'minify-admin-js'));
 }
 
 gulp.task('watch', watchFiles);
-gulp.task('default', gulp.series('sass', 'js', 'minify-css', 'minify-js', 'admin-sass', 'minify-admin-css', 'admin-js', 'minify-admin-js', 'watch'));
+gulp.task('default', gulp.series('sass', 'js', 'minify-css', 'minify-js', 'watch'));
