@@ -2,7 +2,6 @@
 /**
  * View Name: welcome
  * Path: view/welcome
- * 
  * @param array $data arguments passed from controller or route
  */
 ?>
@@ -10,14 +9,13 @@
 {{ body_class   = "view-welcome" }}
 
 {{ content }}
-<section class="welcome">
+<section class="section has-text-centered mt-6">
   <div class="container">
     <div class="inner">
-      <h1><?=$greeting?></h1>
-      <h4><?=$caption?></h4>
-      <a href="<?=$button['link']?>" class="button">
-        <?=$button['text']?>
-      </a>
+      <br>
+      <h1 class="title is-1 mb-5"><?=$greeting?></h1>
+      <h4 class="subtitle mb-5"><?=$caption?></h4>
+      <a href="<?=$button['link']?>" class="button is-primary"><?=$button['text']?></a>
     </div>
   </div>
 </section>

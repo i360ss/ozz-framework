@@ -2,7 +2,6 @@
 /**
  * View Name: http-error
  * Path: view/http-error
- * 
  * @param array $data arguments passed from ozz core or app/functions.php
  */
 ?>
@@ -11,10 +10,10 @@
 {{ body_class = 'light-bg' }}
 
 {{ content }}
-  <section class="error-component">
-    <div class="container center">
-      <h1><?=$error_code?></h1>
-      <h2><?=$error_message?></h2>
-    </div>
-  </section>
+<section class="section has-text-centered mt-6">
+  <div class="container mt-6">
+    <h1 class="title is-1 has-text-grey-light"><?=$error_code?></h1>
+    <h2 class="subtitle is-4 has-text-grey-light"><?=$error_message?></h2>
+  </div>
+</section>
 {{ content-end }}

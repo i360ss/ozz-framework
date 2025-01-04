@@ -1,2 +1,13 @@
-@import "./core/core";
-@import "./basics";
+@use 'common';
+
+:root {
+    --bulma-primary-h: 242deg;
+    --bulma-primary-s: 90%;
+    --bulma-primary-l: 74%;
+    --bulma-link-h: 206deg;
+    --bulma-link-s: 89%;
+    --bulma-link-l: 50%;
+    --bulma-info-l: 76%;
+    --bulma-success-h: 110deg;
+    --bulma-success-s: 57%;
+}

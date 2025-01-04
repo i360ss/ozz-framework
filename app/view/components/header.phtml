@@ -2,29 +2,28 @@
 /**
  * Component Name: header
  * Path: view/components/header
- * 
  * @param array $args Given arguments on component call
- * 
  */
 ?>
 
-<header>
+<header class="navbar is-fixed-top has-shadow">
   <div class="container">
-    <a href="<?=BASE_URL?>">
-      <div class="logo">
+    <div class="navbar-brand">
+      <a href="<?=BASE_URL?>" class="navbar-item">
         <img src="<?=ASSETS?>icons/logo.svg" alt="Logo">
-      </div>
-    </a>
-    <nav>
-      <ul>
-        <?php if(is_logged_in()) : ?>
-          <li><a href="/admin">Admin</a></li>
-          <li><a href="/logout">Logout</a></li>
-        <?php elseif (is_auth_created()): ?>
-          <li><a href="/login">Login</a></li>
-          <li><a href="/sign-up">Sign Up</a></li>
+      </a>
+    </div>
+
+    <div class="navbar-menu is-active">
+      <div class="navbar-end">
+        <?php if (is_logged_in()) : ?>
+          <a href="/admin" class="navbar-item">Admin</a>
+          <a href="/logout" class="navbar-item">Logout</a>
+        <?php elseif (is_auth_created()) : ?>
+          <a href="/login" class="navbar-item">Login</a>
+          <a href="/sign-up" class="navbar-item">Sign Up</a>
         <?php endif; ?>
-      </ul>
-    </nav>
+      </div>
+    </div>
   </div>
 </header>
