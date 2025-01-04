@@ -18,7 +18,7 @@ use Ozz\Core\Auth;
 Router::get('/', function(){
   $data = [
     'greeting' => 'Welcome to <span>ozz</span>',
-    'caption' => 'A Simplest and Light-weight micro framework for PHP',
+    'caption' => 'A simplest and light-weight PHP micro framework with built-in CMS',
     'button' => [
       'text' => 'Documentation',
       'link' => '#'
