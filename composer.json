@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "ozz/core": "^0.1.64",
+        "ozz/core": "^0.1.65",
         "phpmailer/phpmailer": "^6.9.1"
     },
     "require-dev": {
