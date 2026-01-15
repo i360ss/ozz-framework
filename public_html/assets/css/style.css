@@ -1,16 +1,328 @@
-.auth-comp {
-  margin: 80px auto 0;
-  max-width: 600px;
+/* === ROOT VARIABLES === */
+:root {
+  --bg-page: #f4f6fb;
+  --bg-card: #ffffff;
+  --bg-header: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-hover: #1e40af;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --radius: 12px;
+  --input-height: 46px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .05);
+  --font-base: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-:root {
-  --bulma-primary-h: 242deg;
-  --bulma-primary-s: 90%;
-  --bulma-primary-l: 74%;
-  --bulma-link-h: 206deg;
-  --bulma-link-s: 89%;
-  --bulma-link-l: 50%;
-  --bulma-info-l: 76%;
-  --bulma-success-h: 110deg;
-  --bulma-success-s: 57%;
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box
+}
+html,
+body {
+  height: 100%;
+  font-family: var(--font-base);
+  background: var(--bg-page);
+  color: var(--text-main)
+}
+
+/* === CONTAINER === */
+.app-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem
+}
+
+/* === HEADER === */
+.app-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  z-index: 100
+}
+.app-header__inner {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+.app-header__brand img {
+  height: 34px
+}
+.app-header__nav {
+  display: flex;
+  gap: 1.5rem
+}
+.app-nav__link {
+  font-size: .95rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500
+}
+.app-nav__link:hover {
+  color: var(--text-main)
+}
+
+/* === MAIN VIEW WRAPPER === */
+.app-view {
+  min-height: 100vh;
+  display: flex;
+  align-items: center
+}
+
+/* === WELCOME VIEW === */
+.app-view--welcome {
+  text-align: center
+}
+.app-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem
+}
+.app-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 2rem
+}
+
+/* === ERROR VIEW === */
+.app-view--error {
+  text-align: center
+}
+.error-code {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: .5rem
+}
+.error-message {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem
+}
+
+/* === ADMIN VIEW === */
+.app-view--admin {
+  text-align: center;
+}
+.app-view--admin .profile-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 2rem;
+}
+.app-view--admin .profile-name {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+.app-view--admin .profile-username,
+.app-view--admin .profile-email {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* === BUTTONS === */
+.app-button,
+button,
+input[type=submit],
+a.app-button,
+span.app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--input-height);
+  padding: 0 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: .95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .2s ease;
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+}
+.app-button:hover,
+button:hover,
+input[type=submit]:hover,
+a.app-button:hover,
+span.app-button:hover {
+  background: var(--primary-hover);
+}
+.app-button:disabled,
+button:disabled,
+input[type=submit]:disabled,
+a.app-button:disabled,
+span.app-button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.app-button--outline {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-main);
+}
+.app-button--outline:hover {
+  background: #f9fafb;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.app-button--full {
+  width: 100%
+}
+
+/* === AUTH LAYOUT === */
+.auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem
+}
+
+/* === AUTH CARD === */
+.auth-card {
+  width: 100%;
+  width: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: var(--shadow)
+}
+@media(max-width: 520px) {
+  .auth-card {
+    width: 360px;
+    padding: 2rem;
+  };
+}
+
+/* === AUTH TEXT === */
+.auth-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem
+}
+.auth-subtitle {
+  font-size: .95rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 2rem
+}
+
+/* === FORM === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem
+}
+
+/* === FORM GRID === */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem
+}
+.form-grid>* {
+  min-width: 0
+}
+.form-input {
+  width: 100%
+}
+@media(max-width: 520px) {
+  .form-grid {
+    grid-template-columns: 1fr
+  }
+}
+
+/* === FORM GROUP === */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem
+}
+
+/* === INPUT === */
+.form-input {
+  height: var(--input-height);
+  padding: 0 .9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: .95rem;
+  background: #fff;
+  color: var(--text-main);
+  transition: border .2s, box-shadow .2s
+}
+.form-input::placeholder {
+  color: #9ca3af
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15)
+}
+.form-input.is-error {
+  border-color: var(--danger);
+  box-shadow: none
+}
+
+/* === FORM FEEDBACK === */
+.form-error {
+  font-size: .8rem;
+  color: var(--danger)
+}
+.form-message {
+  font-size: .9rem;
+  padding: .75rem;
+  border-radius: 10px;
+  text-align: center
+}
+.form-message.success {
+  background: #ecfdf5;
+  color: var(--success)
+}
+.form-message.error {
+  background: #fef2f2;
+  color: var(--danger)
+}
+
+/* === AUTH FOOTER === */
+.auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--text-muted)
+}
+.auth-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500
+}
+.auth-footer a:hover {
+  text-decoration: underline
+}
+
+/* === UTILITIES === */
+.text-center {
+  text-align: center
+}
+.mt-2 {
+  margin-top: .5rem
+}
+.mt-4 {
+  margin-top: 1rem
+}
+.mt-6 {
+  margin-top: 2rem
 }

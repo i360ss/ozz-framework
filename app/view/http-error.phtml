@@ -6,14 +6,14 @@
  */
 ?>
 
-{{ title      = '<?=$error_message?>' }}
-{{ body_class = 'light-bg' }}
+{{ title = '<?=$error_message?>' }}
+{{ body_class = 'error-page' }}
 
 {{ content }}
-<section class="section has-text-centered mt-6">
-  <div class="container mt-6">
-    <h1 class="title is-1 has-text-grey-light"><?=$error_code?></h1>
-    <h2 class="subtitle is-4 has-text-grey-light"><?=$error_message?></h2>
+<section class="app-view app-view--error">
+  <div class="app-container">
+    <h1 class="app-error__code"><?=$error_code?></h1>
+    <p class="app-error__message"><?=$error_message?></p>
   </div>
 </section>
 {{ content-end }}

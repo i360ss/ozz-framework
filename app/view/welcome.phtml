@@ -5,20 +5,17 @@
  * @param array $data arguments passed from controller or route
  */
 ?>
-{{ title        = "Welcome to <?=APP_NAME?>" }}
-{{ body_class   = "view-welcome" }}
+{{ title = "Welcome to <?=APP_NAME?>" }}
+{{ body_class = "welcome" }}
 
 {{ content }}
-<section class="section has-text-centered mt-6">
-  <div class="container">
-    <div class="inner">
-      <br>
-      <h1 class="title is-1 mb-5"><?=$greeting?></h1>
-      <h4 class="subtitle mb-5"><?=$caption?></h4>
-      <a href="<?=$button['link']?>" class="button is-primary">
-        <?=$button['text']?>
-      </a>
-    </div>
+<section class="app-view app-view--welcome">
+  <div class="app-container">
+    <h1 class="app-title"><?=$greeting?></h1>
+    <p class="app-subtitle"><?=$caption?></p>
+    <a href="<?=$button['link']?>" class="app-button app-button--primary">
+      <?=$button['text']?>
+    </a>
   </div>
 </section>
 {{ content-end }}
