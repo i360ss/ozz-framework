@@ -94,7 +94,7 @@ class OzzUpdater {
 
       return json([
         'success' => true,
-        'message' => implode("", $this->logs)
+        'message' => end($this->logs)
       ]);
 
     } catch (Exception $e) {
@@ -110,7 +110,7 @@ class OzzUpdater {
 
       return json([
         'success' => false,
-        'message' => implode("", $this->logs)
+        'message' => end($this->logs)
       ]);
     }
   }
