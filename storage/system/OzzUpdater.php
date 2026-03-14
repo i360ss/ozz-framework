@@ -41,7 +41,12 @@ class OzzUpdater {
   */
   public function getLatestVersion() {
     $url = "https://repo.packagist.org/p2/{$this->package}.json";
-    $json = @file_get_contents($url);
+
+    // Temporarily suppress warnings
+    set_error_handler(function() { /* ignore */ });
+    $json = file_get_contents($url);
+    restore_error_handler();
+
     if (!$json) return null;
 
     $data = json_decode($json, true);
@@ -58,7 +63,7 @@ class OzzUpdater {
   */
   public function isUpdateAvailable() {
     $installed = $this->getInstalledVersion();
-    $latest = ltrim($this->getLatestVersion()['version'], 'v');
+    $latest = $this->getLatestVersion() ? ltrim($this->getLatestVersion()['version'], 'v') : false;
     if (!$installed || !$latest) {
       return false;
     }
@@ -76,7 +81,16 @@ class OzzUpdater {
       $this->runComposerUpdate();
       $this->publishFiles();
       $this->runMigrations();
-      $this->log("Framework update completed successfully ✓", "success");
+      $this->log("Framework update completed successfully ✓ 🥳", "success");
+
+      // Log update on app log SQLite
+      ozz_log_save('ozz_logs', [
+        'type' => 'success',
+        'key' => 'ozz_update',
+        'value' => implode("", $this->logs),
+        'updated_by' => auth_email(),
+        'updated_at' => date('Y-m-d H:i:s')
+      ]);
 
       return json([
         'success' => true,
@@ -85,17 +99,20 @@ class OzzUpdater {
 
     } catch (Exception $e) {
       $this->log($e->getMessage(), "error");
+
+      ozz_log_save('ozz_logs', [
+        'type' => 'error',
+        'key' => 'ozz_update',
+        'value' => implode("", $this->logs),
+        'updated_by' => auth_email(),
+        'updated_at' => date('Y-m-d H:i:s')
+      ]);
+
       return json([
         'success' => false,
         'message' => implode("", $this->logs)
       ]);
     }
-
-    ozz_log_save('ozz_updates', [
-      'log' => implode("", $this->logs),
-      'updated_by' => auth_email(),
-      'updated_at' => date('Y-m-d H:i:s')
-    ]);
   }
 
 
@@ -144,7 +161,7 @@ class OzzUpdater {
     $this->recursiveCopy($src.'cms/c/', $root.'cms/controller/'); // CMS Controllers
     $this->recursiveCopy($src.'cms/v/', $root.'cms/view/'); // CMS View files
     $this->recursiveCopy($src.'cms/md/', $root.'app/middleware/'); // CMS Middlewares
-    $this->recursiveCopy($src.'cms/mg/', $root.'database/migration/', 'mg_'.date('YmdHis').'_'); // Copy migration files with prefix
+    $this->recursiveCopy($src.'cms/mg/', $root.'database/migration/', 'mg_'.date('YmdHis').'_', false, true); // Copy migration files with prefix
     copy( $src.'cms/cms-route.php', $root.'cms/cms-route.php' ); // Copy route file
     $this->log("Framework files published ✓", "success");
   }
@@ -159,6 +176,7 @@ class OzzUpdater {
     $cmd = "php ozz migrate 2>&1";
     exec($cmd, $output, $result);
     foreach ($output as $line) {
+      $line = preg_replace('/\e\[[0-9;]*m/', '', $line);
       $this->log($line);
     }
     if ($result !== 0) {
@@ -171,18 +189,31 @@ class OzzUpdater {
   /**
   * Recursive copy
   */
-  protected function recursiveCopy($src, $dst, $file_prefix='') {
+  protected function recursiveCopy($src, $dst, $file_prefix = '', $overwrite=true, $checkOriginalName = false) {
     $dir = opendir($src);
-    @mkdir($dst, 0755, true);
+    if (!is_dir($dst)) {
+      mkdir($dst, 0755, true);
+    }
+
     while (($file = readdir($dir)) !== false) {
-      if ($file === '.' || $file === '..') {
-        continue;
-      }
-      if (is_dir("$src/$file")) {
-        $this->recursiveCopy("$src/$file", "$dst/$file", $file_prefix);
+      if ($file === '.' || $file === '..') continue;
+      $srcFile = "$src/$file";
+      $dstFile = rtrim($dst, '/') . '/' . $file_prefix . $file; // Destination file with prefix
+
+      if (is_dir($srcFile)) {
+        $this->recursiveCopy($srcFile, "$dst/$file", $file_prefix, $overwrite, $checkOriginalName);
       } else {
-        copy("$src/$file", "$dst/$file_prefix.$file");
-        $this->log("Copied: $file", "success");
+        // Check existence based on original filename, ignoring timestamp prefix
+        if ($checkOriginalName) {
+          $originalFiles = glob(rtrim($dst, '/') . '/*' . $file);
+          if (!$overwrite && count($originalFiles) > 0) {
+            $this->log("Skipped existing migration: $file", "info");
+            continue;
+          }
+        }
+
+        copy($srcFile, $dstFile);
+        $this->log("Copied: $file_prefix$file", "success");
       }
     }
     closedir($dir);
