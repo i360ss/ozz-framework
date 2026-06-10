@@ -3,7 +3,7 @@ class OzzUpdater {
   use \Ozz\Core\system\log\Ozz_log_data;
 
   protected $package = 'ozz/core';
-  protected $composer = __DIR__.'/../../composer.phar';
+  protected $composer = BASE_DIR.'composer.phar';
   protected $logs = [];
 
   protected function log($message, $type = 'info') {
@@ -21,7 +21,7 @@ class OzzUpdater {
   * Get installed version
   */
   public function getInstalledVersion() {
-    $lockFile = __DIR__.'/../../composer.lock';
+    $lockFile = BASE_DIR.'composer.lock';
     if (!file_exists($lockFile)) {
       return null;
     }
@@ -124,7 +124,7 @@ class OzzUpdater {
     set_time_limit(0);
     ini_set('memory_limit', '512M');
     ini_set('max_execution_time', 0);
-    chdir(realpath(__DIR__.'/../../')); // Move to root
+    chdir(realpath(BASE_DIR)); // Move to root
 
     $cmd = 'php '
       . escapeshellarg($this->composer)
@@ -150,19 +150,19 @@ class OzzUpdater {
   * Publish framework files
   */
   protected function publishFiles() {
-    $src = __DIR__.'/../../vendor/ozz/core/src/system/content-holder/';
-    $root = __DIR__.'/../../';
+    $src = BASE_DIR.'vendor/ozz/core/src/system/content-holder/';
+    $root = BASE_DIR;
     if (!is_dir($src)) {
       $this->log("No publish directory found. Skipping...", "info");
       return;
     }
 
     $this->recursiveCopy($src.'cms/as/', ASSETS_DIR.'admin/'); // Admin assets
-    $this->recursiveCopy($src.'cms/c/', $root.'cms/controller/'); // CMS Controllers
-    $this->recursiveCopy($src.'cms/v/', $root.'cms/view/'); // CMS View files
-    $this->recursiveCopy($src.'cms/md/', $root.'app/middleware/'); // CMS Middlewares
-    $this->recursiveCopy($src.'cms/mg/', $root.'database/migration/', 'mg_'.date('YmdHis').'_', false, true); // Copy migration files with prefix
-    copy( $src.'cms/cms-route.php', $root.'cms/cms-route.php' ); // Copy route file
+    $this->recursiveCopy($src.'cms/c/', CMS_DIR.'controller/'); // CMS Controllers
+    $this->recursiveCopy($src.'cms/v/', CMS_DIR.'view/'); // CMS View files
+    $this->recursiveCopy($src.'cms/md/', APP_DIR.'middleware/'); // CMS Middlewares
+    $this->recursiveCopy($src.'cms/mg/', MIGRATION_DIR, 'mg_'.date('YmdHis').'_', false, true); // Copy migration files with prefix
+    copy( $src.'cms/cms-route.php', CMS_DIR.'cms-route.php' ); // Copy route file
     $this->log("Framework files published ✓", "success");
   }
 
@@ -172,7 +172,7 @@ class OzzUpdater {
   */
   protected function runMigrations() {
     $this->log("Running migrations...", "info");
-    chdir(realpath(__DIR__.'/../../')); // Go to root
+    chdir(realpath(BASE_DIR)); // Go to root
     $cmd = "php ozz migrate 2>&1";
     exec($cmd, $output, $result);
     foreach ($output as $line) {
