@@ -157,7 +157,7 @@ class OzzUpdater {
       return;
     }
 
-    $this->recursiveCopy($src.'cms/as/', $root.env('app', 'PUBLIC_DIR').'/assets/admin/'); // Admin assets
+    $this->recursiveCopy($src.'cms/as/', ASSETS_DIR.'admin/'); // Admin assets
     $this->recursiveCopy($src.'cms/c/', $root.'cms/controller/'); // CMS Controllers
     $this->recursiveCopy($src.'cms/v/', $root.'cms/view/'); // CMS View files
     $this->recursiveCopy($src.'cms/md/', $root.'app/middleware/'); // CMS Middlewares
