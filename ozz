@@ -1,7 +1,12 @@
 <?php
 // Ozz CLI
-require 'vendor/autoload.php';
-require 'vendor/ozz/core/src/system/ozz-func.php';
+defined('BASE_DIR') || define('BASE_DIR', __DIR__.'/');
+defined('ENV_FILE') || define('ENV_FILE', __DIR__.'/env.ini');
+defined('CSP_FILE') || define('CSP_FILE', __DIR__.'/csp.ini');
+defined('CONFIG_FILE') || define('CONFIG_FILE', __DIR__.'/app/config.php');
+
+require BASE_DIR.'vendor/autoload.php';
+require BASE_DIR.'vendor/ozz/core/src/system/ozz-func.php';
 
 define('SPC_BACK', [
   'core' => '/../../../../',
@@ -13,7 +18,7 @@ class Ozz {
   
   public function action($arg){
     define('APP_ENV', env('app', 'APP_ENV'));
-    require 'vendor/ozz/core/src/system/ozz-commands.php';
+    require BASE_DIR.'vendor/ozz/core/src/system/ozz-commands.php';
   }
   
 }
