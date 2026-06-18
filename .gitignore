@@ -3,3 +3,6 @@
 /public_html/uploads/*
 !/public_html/uploads/.gitkeep
 **/package-lock.json
+/storage/cache/*
+/storage/session/*
+/storage/log/*
