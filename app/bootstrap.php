@@ -14,6 +14,7 @@ if(CONFIG['PAGE_CACHE_LIFETIME'] && $page_cache = (new Cache)->get()){
 $APP = new AppInit();
 $EXCEPTION = new ExceptionHandler();
 $DEBUG_BAR = new DebugBar();
+$GLOBALS['DEBUG_BAR'] = $DEBUG_BAR;
 
 $EXCEPTION->checkForCommonExceptions();
 
