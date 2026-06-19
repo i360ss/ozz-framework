@@ -1,4 +1,5 @@
 <?php
+defined('ROOT') || define('ROOT', __DIR__);
 defined('BASE_DIR') || define('BASE_DIR', __DIR__.'/../');
 defined('ENV_FILE') || define('ENV_FILE', __DIR__.'/../env.ini');
 defined('CSP_FILE') || define('CSP_FILE', __DIR__.'/../csp.ini');
