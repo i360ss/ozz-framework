@@ -72,7 +72,14 @@
                     thisWrapper = thisRepeater.querySelector(':scope > .ozz-fm__repeat-wrapper'),
                     thisItemCount = thisWrapper.querySelectorAll(':scope > .ozz-fm__repeat-fields'),
                     thisItem = thisWrapper.querySelector(':scope > .ozz-fm__repeat-fields'),
-                    newItem = thisItem.cloneNode(true);
+                    newItem = thisItem.cloneNode(true),
+                    maxRepeates = thisRepeater.getAttribute( 'data-ozz-repeat-max' ) ?? false;
+
+                if (maxRepeates && thisItemCount.length >= maxRepeates) {
+                    addTrigger.setAttribute('disabled', true);
+                    return false;
+                }
+                addTrigger.removeAttribute('disabled', true);
 
                 // Add ID to new item
                 newItem.setAttribute('id', `rptf-${randomString(18)}`);
