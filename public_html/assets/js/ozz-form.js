@@ -257,6 +257,19 @@
                     });
                     filter__renderTags(tagsContainer, selectedItems, field);
                 }
+            } else {
+                if (hiddenField.value) {
+                    const matchedOption = Array.from(options).find(
+                        opt => opt.getAttribute('data-value') === hiddenField.value
+                    );
+
+                    if (matchedOption) {
+                        searchField.value = matchedOption.textContent.trim();
+                    } else if (allowCustom) {
+                        // If custom values are allowed, show the raw value
+                        searchField.value = hiddenField.value;
+                    }
+                }
             }
 
             searchField.addEventListener('focus', () => {
