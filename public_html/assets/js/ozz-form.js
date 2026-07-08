@@ -500,9 +500,130 @@
     }
 
 
+    // ================================
+    // File upload Live preview
+    // ================================
+    function initFileUploadLivePreview() {
+        const fileFields = document.querySelectorAll('[data-ozz-file]');
+        if (fileFields.length === 0) return;
+
+        fileFields.forEach(field => {
+            const targetId = field.name;
+            const embedDOM = document.querySelector(`[data-ozz-embed="${CSS.escape(targetId)}"]`);
+
+            if (!embedDOM) return;
+
+            let accumulatedFiles = [];
+            let isInternalSync = false; 
+
+            field.addEventListener('change', (event) => {
+                if (isInternalSync || (event.detail && event.detail.ozzBypass)) return;
+
+                const incomingFiles = Array.from(event.target.files);
+                if (incomingFiles.length === 0) return;
+
+                const maxFilesAttr = field.getAttribute('data-ozz-max-files');
+                const maxFiles = maxFilesAttr ? parseInt(maxFilesAttr, 10) : Infinity;
+                const uniqueIncomingFiles = incomingFiles.map(file => ({
+                    id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    file: file
+                }));
+
+                const slotsRemaining = maxFiles - accumulatedFiles.length;
+
+                if (slotsRemaining <= 0) {
+                    alert(`Maximum limit of ${maxFiles} files reached.`);
+                    syncInputFiles(field, accumulatedFiles); 
+                    return;
+                }
+
+                if (uniqueIncomingFiles.length > slotsRemaining) {
+                    accumulatedFiles = accumulatedFiles.concat(uniqueIncomingFiles.slice(0, slotsRemaining));
+                } else {
+                    accumulatedFiles = accumulatedFiles.concat(uniqueIncomingFiles);
+                }
+
+                syncInputFiles(field, accumulatedFiles);
+                renderPreviews();
+            });
+
+            function renderPreviews() {
+                const existingImgs = embedDOM.querySelectorAll('img[data-ozz-blob]');
+                existingImgs.forEach(img => URL.revokeObjectURL(img.getAttribute('data-ozz-blob')));
+                embedDOM.innerHTML = '';
+
+                accumulatedFiles.forEach((trackedFile) => {
+                    const file = trackedFile.file;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'ozz-preview-item';
+                    wrapper.style.position = 'relative';
+
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        const objectUrl = URL.createObjectURL(file);
+                        img.src = objectUrl;
+                        img.alt = file.name;
+                        img.className = 'ozz-preview-img';
+                        img.setAttribute('data-ozz-blob', objectUrl); 
+                        wrapper.appendChild(img);
+                    } else {
+                        const fileIconCard = document.createElement('div');
+                        fileIconCard.className = 'ozz-preview-file-card';
+                        fileIconCard.innerHTML = `
+                            <span class="ozz-file-name">${escapeHTML(file.name)}</span>
+                            <span class="ozz-file-size">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                        `;
+                        wrapper.appendChild(fileIconCard);
+                    }
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'ozz-remove-btn';
+                    removeBtn.innerHTML = '&times;';
+
+                    removeBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation(); 
+
+                        // Filter out the deleted file
+                        accumulatedFiles = accumulatedFiles.filter(item => item.id !== trackedFile.id);
+
+                        // Sync the remaining files to the input and redraw the HTML
+                        syncInputFiles(field, accumulatedFiles);
+                        renderPreviews();
+
+                        // CustomEvent to alert external plugins/validators of a change
+                        field.dispatchEvent(new CustomEvent('change', { 
+                            detail: { ozzBypass: true } 
+                        }));
+                    });
+
+                    wrapper.appendChild(removeBtn);
+                    embedDOM.appendChild(wrapper);
+                });
+            }
+
+            function syncInputFiles(inputElement, trackedFilesArray) {
+                isInternalSync = true; 
+                const dt = new DataTransfer();
+                trackedFilesArray.forEach(tracked => dt.items.add(tracked.file));
+                inputElement.files = dt.files;
+                isInternalSync = false; 
+            }
+        });
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    }
+
+
     // Init functions
     document.addEventListener('DOMContentLoaded', () => {
         initRepeater();
         initiFilterDropdowns();
+        initFileUploadLivePreview();
     });
 })();
