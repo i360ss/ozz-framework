@@ -230,7 +230,7 @@
             const options = dropdown.getElementsByTagName('li');
 
             // Track selected items for multiple mode: [{ value: '...', text: '...' }]
-            let selectedItems = [];
+            field.selectedItems = [];
 
             if (isMultiple) {
                 searchField.placeholder = searchField.placeholder || "Select options...";
@@ -281,7 +281,7 @@
 
                 // Only update single-select hidden fields instantly on typing custom text
                 if (allowCustom && !isMultiple) {
-                    hiddenField.value = this.value;
+                    filter__updateHiddenValue(hiddenField, this.value);
                 }
 
                 for (let option of options) {
@@ -300,7 +300,7 @@
                 // Multiple mode handles custom input validation differently
                 if (isMultiple) {
                     if (allowCustom && this.value.trim() !== "") {
-                        filter__addMultipleSelection(this.value.trim(), this.value.trim(), field, selectedItems);
+                        filter__addMultipleSelection(this.value.trim(), this.value.trim(), field, field.selectedItems);
                         this.value = "";
                         filter__resetDropdownFilters(options);
                     } else if (!allowCustom && this.value.trim() !== "") {
@@ -308,7 +308,7 @@
                             opt => opt.textContent.trim().toLowerCase() === this.value.trim().toLowerCase()
                         );
                         if (matchedOption) {
-                            filter__addMultipleSelection(matchedOption.getAttribute('data-value'), matchedOption.textContent.trim(), field, selectedItems);
+                            filter__addMultipleSelection(matchedOption.getAttribute('data-value'), matchedOption.textContent.trim(), field, field.selectedItems);
                         }
                         this.value = "";
                         filter__resetDropdownFilters(options);
@@ -325,17 +325,20 @@
                     const txt = e.target.textContent.trim();
 
                     if (isMultiple) {
-                        filter__addMultipleSelection(val, txt, field, selectedItems);
+                        filter__addMultipleSelection(val, txt, field, field.selectedItems);
                         searchField.value = ""; // Clear input for next search
                         searchField.focus();   // Keep focus to chain selections
                         filter__resetDropdownFilters(options);
                     } else {
                         searchField.value = txt;
-                        hiddenField.value = val;
+                        filter__updateHiddenValue(hiddenField, val);
                         dropdown.classList.add('hidden');
                     }
                 }
             });
+
+            // Dynamic dropdown values updating method
+            field.updateOptions = (newOptions) => filter__updateDropdownOptions(field, newOptions);
         });
 
         document.addEventListener('focusin', filter__handleOutsideInteraction);
@@ -367,7 +370,7 @@
         }
 
         // Sync to hidden field as comma separated values
-        hiddenField.value = selectedItems.map(item => item.value).join(',');
+        filter__updateHiddenValue(hiddenField, selectedItems.map(item => item.value).join(','));
         filter__renderTags(tagsContainer, selectedItems, field);
     }
 
@@ -401,10 +404,10 @@
 
             if (matchedOption) {
                 searchField.value = matchedOption.textContent.trim();
-                hiddenField.value = matchedOption.getAttribute('data-value');
+                filter__updateHiddenValue(hiddenField, matchedOption.getAttribute('data-value'));
             } else if (searchField.value !== "") {
                 searchField.value = "";
-                hiddenField.value = "";
+                filter__updateHiddenValue(hiddenField, "");
             }
         }
         dropdown.classList.add('hidden');
@@ -446,6 +449,54 @@
                 }
             }
         });
+    }
+
+    /**
+     * Dynamically updates the option list inside a filter dropdown
+     * @param {HTMLElement} field - The main element with [data-ozz-filter]
+     * @param {Array} newOptions - Array of items: [{ value: '1', text: 'Option 1' }]
+     */
+    function filter__updateDropdownOptions(field, newOptions) {
+        const dropdown = field.querySelector('[data-ozz-filter-dropdown]');
+        const hiddenField = field.querySelector('[data-ozz-filter-hiddenfield]');
+        const searchField = field.querySelector('[data-ozz-filter-textfield]');
+        const isMultiple = field.getAttribute('data-ozz-filter-multiple') === 'true';
+
+        dropdown.innerHTML = '';
+        newOptions.forEach(opt => {
+            const li = document.createElement('li');
+            li.setAttribute('data-value', opt.value);
+            li.textContent = opt.text;
+            dropdown.appendChild(li);
+        });
+
+        // Clear values/tags to prevent mismatch stale states
+        filter__updateHiddenValue(hiddenField, '');
+        searchField.value = '';
+
+        if (isMultiple) {
+            field.selectedItems = [];
+            const tagsContainer = field.querySelector('.ozz-tags-container');
+            if (tagsContainer) tagsContainer.innerHTML = '';
+        }
+    }
+
+    /**
+     * Helper to safely update hidden fields and dispatch programmatic events
+     */
+    function filter__updateHiddenValue(hiddenField, newValue) {
+        if (hiddenField.value !== newValue) {
+            hiddenField.value = newValue;
+
+            // Dispatch standard 'change' event
+            hiddenField.dispatchEvent(new Event('change', { bubbles: true }));
+
+            // Dispatch a richer Custom Event for deep integrations
+            hiddenField.dispatchEvent(new CustomEvent('ozzFilter:change', { 
+                bubbles: true,
+                detail: { value: newValue }
+            }));
+        }
     }
 
 
