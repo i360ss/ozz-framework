@@ -246,16 +246,18 @@
                 // Sync visual active states if hiddenField already has default comma-separated values
                 if (hiddenField.value) {
                     const initialValues = hiddenField.value.split(',');
+                    
                     Array.from(options).forEach(opt => {
                         if (initialValues.includes(opt.getAttribute('data-value'))) {
                             opt.classList.add('selected');
-                            selectedItems.push({
+                            field.selectedItems.push({
                                 value: opt.getAttribute('data-value'),
                                 text: opt.textContent.trim()
                             });
                         }
                     });
-                    filter__renderTags(tagsContainer, selectedItems, field);
+                    searchField.value = '';
+                    filter__renderTags(tagsContainer, field.selectedItems, field);
                 }
             } else {
                 if (hiddenField.value) {
@@ -513,8 +515,28 @@
 
             if (!embedDOM) return;
 
-            let accumulatedFiles = [];
+            let accumulatedFiles = []; // For newly picked File objects
+            let existingFiles = [];    // For server-rendered image URLs
             let isInternalSync = false; 
+
+            // Parse initial/existing image URLs from a data attribute
+            const initialData = field.getAttribute('data-file-value');
+            if (initialData) {
+                try {
+                    const urls = JSON.parse(initialData);
+                    if (urls.length === 0) return;
+                    existingFiles = urls.map(url => ({
+                        id: `existing-${Math.random().toString(36).substr(2, 9)}`,
+                        url: url,
+                        isExisting: true
+                    }));
+                } catch (e) {
+                    console.error('Invalid JSON in data-file-value', e);
+                }
+            }
+
+            // Render previews on page load
+            renderPreviews();
 
             field.addEventListener('change', (event) => {
                 if (isInternalSync || (event.detail && event.detail.ozzBypass)) return;
@@ -524,12 +546,16 @@
 
                 const maxFilesAttr = field.getAttribute('data-ozz-max-files');
                 const maxFiles = maxFilesAttr ? parseInt(maxFilesAttr, 10) : Infinity;
+
                 const uniqueIncomingFiles = incomingFiles.map(file => ({
                     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                    file: file
+                    file: file,
+                    isExisting: false
                 }));
 
-                const slotsRemaining = maxFiles - accumulatedFiles.length;
+                // Account for existing items when checking limits
+                const totalCurrent = accumulatedFiles.length + existingFiles.length;
+                const slotsRemaining = maxFiles - totalCurrent;
 
                 if (slotsRemaining <= 0) {
                     alert(`Maximum limit of ${maxFiles} files reached.`);
@@ -548,32 +574,45 @@
             });
 
             function renderPreviews() {
+                // Clean up blob URLs for newly uploaded files only
                 const existingImgs = embedDOM.querySelectorAll('img[data-ozz-blob]');
                 existingImgs.forEach(img => URL.revokeObjectURL(img.getAttribute('data-ozz-blob')));
                 embedDOM.innerHTML = '';
 
-                accumulatedFiles.forEach((trackedFile) => {
-                    const file = trackedFile.file;
+                // Combine existing files and new uploads for rendering
+                const allItems = [...existingFiles, ...accumulatedFiles];
+
+                allItems.forEach((trackedItem) => {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'ozz-preview-item';
                     wrapper.style.position = 'relative';
 
-                    if (file.type.startsWith('image/')) {
+                    if (trackedItem.isExisting) {
+                        // Render existing server URL
                         const img = document.createElement('img');
-                        const objectUrl = URL.createObjectURL(file);
-                        img.src = objectUrl;
-                        img.alt = file.name;
+                        img.src = trackedItem.url;
                         img.className = 'ozz-preview-img';
-                        img.setAttribute('data-ozz-blob', objectUrl); 
                         wrapper.appendChild(img);
                     } else {
-                        const fileIconCard = document.createElement('div');
-                        fileIconCard.className = 'ozz-preview-file-card';
-                        fileIconCard.innerHTML = `
-                            <span class="ozz-file-name">${escapeHTML(file.name)}</span>
-                            <span class="ozz-file-size">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                        `;
-                        wrapper.appendChild(fileIconCard);
+                        // Render newly picked File object
+                        const file = trackedItem.file;
+                        if (file.type.startsWith('image/')) {
+                            const img = document.createElement('img');
+                            const objectUrl = URL.createObjectURL(file);
+                            img.src = objectUrl;
+                            img.alt = file.name;
+                            img.className = 'ozz-preview-img';
+                            img.setAttribute('data-ozz-blob', objectUrl); 
+                            wrapper.appendChild(img);
+                        } else {
+                            const fileIconCard = document.createElement('div');
+                            fileIconCard.className = 'ozz-preview-file-card';
+                            fileIconCard.innerHTML = `
+                                <span class="ozz-file-name">${escapeHTML(file.name)}</span>
+                                <span class="ozz-file-size">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                            `;
+                            wrapper.appendChild(fileIconCard);
+                        }
                     }
 
                     const removeBtn = document.createElement('button');
@@ -585,14 +624,24 @@
                         e.preventDefault();
                         e.stopPropagation(); 
 
-                        // Filter out the deleted file
-                        accumulatedFiles = accumulatedFiles.filter(item => item.id !== trackedFile.id);
+                        if (trackedItem.isExisting) {
+                            // Remove from existing list
+                            existingFiles = existingFiles.filter(item => item.id !== trackedItem.id);
+                            
+                            // Optional: Append a hidden input so your backend knows this existing ID/URL was deleted
+                            const deletedInput = document.createElement('input');
+                            deletedInput.type = 'hidden';
+                            deletedInput.name = `removed_${targetId}[]`;
+                            deletedInput.value = trackedItem.url;
+                            embedDOM.parentElement.appendChild(deletedInput);
+                        } else {
+                            // Remove from newly uploaded list
+                            accumulatedFiles = accumulatedFiles.filter(item => item.id !== trackedItem.id);
+                            syncInputFiles(field, accumulatedFiles);
+                        }
 
-                        // Sync the remaining files to the input and redraw the HTML
-                        syncInputFiles(field, accumulatedFiles);
                         renderPreviews();
 
-                        // CustomEvent to alert external plugins/validators of a change
                         field.dispatchEvent(new CustomEvent('change', { 
                             detail: { ozzBypass: true } 
                         }));
