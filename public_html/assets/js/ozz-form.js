@@ -1,8 +1,5 @@
 (() => {
 
-    // ================================
-    // Repeater
-    // ================================
     /**
      * Toggle Class
      * @param object DOM
@@ -20,6 +17,10 @@
         return Array.from({ length }, () => Math.random().toString(36)[2]).join('');
     }
 
+
+    // ================================
+    // Repeater
+    // ================================
     /**
     * Ozz Form Repeater initialization
     * @param DOM Used Block
@@ -108,15 +109,41 @@
                         });
                     }
 
+                    // Cleanup inited attributes
+                    elm.removeAttribute('data-ozz-condition-inited');
+
                     // Enable delete button if disabled
                     [thisItem, newItem].forEach(element => {
-                        element.querySelector('.ozz-fm__repeat-remove').removeAttribute('disabled');
+                        element.querySelector('.ozz-fm__repeat-remove')?.removeAttribute('disabled');
                     });
                 });
 
                 // Clear selected media files
                 newItem.querySelectorAll('.ozz-fm__media-embed-wrapper').forEach(mediaWrapper => {
                     mediaWrapper.innerHTML = '';
+                });
+
+                // Reset Filter Dropdowns in cloned item
+                newItem.querySelectorAll('[data-ozz-filter]').forEach(filterEl => {
+                    delete filterEl.dataset.ozzFilterInited;
+                    filterEl.selectedItems = [];
+
+                    const tagsContainer = filterEl.querySelector('.ozz-tags-container');
+                    if (tagsContainer) tagsContainer.remove();
+
+                    const searchField = filterEl.querySelector('[data-ozz-filter-textfield]');
+                    const hiddenField = filterEl.querySelector('[data-ozz-filter-hiddenfield]');
+                    if (searchField) searchField.value = '';
+                    if (hiddenField) hiddenField.value = '';
+
+                    const dropdown = filterEl.querySelector('[data-ozz-filter-dropdown]');
+                    if (dropdown) {
+                        dropdown.classList.add('hidden');
+                        Array.from(dropdown.getElementsByTagName('li')).forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.style.display = '';
+                        });
+                    }
                 });
 
                 newItem.querySelector('.ozz-fm__repeat-number').innerHTML = thisItemCount.length + 1;
@@ -142,6 +169,16 @@
                 if (typeof bindEvents === 'function') {
                     bindEvents();
                 }
+
+                // Dispatch custom event when a row is added
+                thisRepeater.dispatchEvent(new CustomEvent('ozzRepeater:add', {
+                    bubbles: true,
+                    detail: {
+                        item: newItem,             // The newly created DOM element
+                        repeater: thisRepeater,    // The repeater container
+                        index: thisItemCount.length // Index of the new row
+                    }
+                }));
             });
         });
     }
@@ -160,8 +197,20 @@
                     thisFields = thisFieldsetWrapper?.querySelectorAll(':scope > .ozz-fm__repeat-fields');
 
                 if (thisFields && thisFields.length > 1) {
+                    const thisRepeater = thisFieldsetWrapper?.closest('.ozz-fm__repeat');
                     deleteItem.closest('.ozz-fm__repeat-fields').remove();
                     repeater__renameFields();
+
+                    // Dispatch custom event when a row is deleted
+                    if (thisRepeater) {
+                        thisRepeater.dispatchEvent(new CustomEvent('ozzRepeater:delete', {
+                            bubbles: true,
+                            detail: {
+                                repeater: thisRepeater,
+                                remainingCount: thisFieldsetWrapper.querySelectorAll(':scope > .ozz-fm__repeat-fields').length
+                            }
+                        }));
+                    }
                 } else {
                     deleteItem.setAttribute('disabled', true);
                     return false;
@@ -201,6 +250,13 @@
                             if (elm.name) {
                                 const newName = elm.name.replace(new RegExp(`${rptNameOnly}__\\d+__`), `${rptNameOnly}__${i}__`);
                                 elm.name = newName;
+
+                                // if File, rename the embed element as well
+                                if (elm.type === 'file') {
+                                    if (elm.nextElementSibling && elm.nextElementSibling.dataset.ozzEmbed) {
+                                        elm.nextElementSibling.setAttribute('data-ozz-embed', newName);
+                                    }
+                                }
                             } else if (elm.dataset.fieldName) {
                                 const newDataAttr = elm.dataset.fieldName.replace(new RegExp(`${rptNameOnly}__\\d+__`), `${rptNameOnly}__${i}__`);
                                 elm.setAttribute('data-field-name', newDataAttr);
@@ -209,6 +265,14 @@
                     }
                 }
             });
+
+            thisRepeater.dispatchEvent(new CustomEvent('ozzRepeater:reindex', {
+                bubbles: true,
+                detail: {
+                    repeater: thisRepeater,
+                    total: thisFieldSet.length
+                }
+            }));
         });
     }
 
@@ -216,11 +280,22 @@
     // ================================
     // Filter dropdown field
     // ================================
-    function initiFilterDropdowns() {
-        const fields = document.querySelectorAll('[data-ozz-filter]');
+    /**
+     * Initialize filter dropdown fields within a given container scope
+     * @param {HTMLElement|Document} scope 
+     */
+    function initFilterDropdowns(scope = document) {
+        const fields = scope.matches && scope.matches('[data-ozz-filter]')
+            ? [scope]
+            : Array.from(scope.querySelectorAll('[data-ozz-filter]'));
+
         if (fields.length === 0) return;
 
         fields.forEach(field => {
+            // Prevent duplicate initialization on the same element
+            if (field.dataset.ozzFilterInited === 'true') return;
+            field.dataset.ozzFilterInited = 'true';
+
             const allowCustom = field.getAttribute('data-ozz-filter-allow-custom') === 'true';
             const isMultiple = field.getAttribute('data-ozz-filter-multiple') === 'true';
 
@@ -342,9 +417,6 @@
             // Dynamic dropdown values updating method
             field.updateOptions = (newOptions) => filter__updateDropdownOptions(field, newOptions);
         });
-
-        document.addEventListener('focusin', filter__handleOutsideInteraction);
-        document.addEventListener('click', filter__handleOutsideInteraction);
     }
 
     /**
@@ -505,13 +577,13 @@
     // ================================
     // File upload Live preview
     // ================================
-    function initFileUploadLivePreview() {
-        const fileFields = document.querySelectorAll('[data-ozz-file]');
+    function initFileUploadLivePreview(scope = document) {
+        const fileFields = scope.querySelectorAll('[data-ozz-file]');
         if (fileFields.length === 0) return;
 
         fileFields.forEach(field => {
             const targetId = field.name;
-            const embedDOM = document.querySelector(`[data-ozz-embed="${CSS.escape(targetId)}"]`);
+            const embedDOM = scope.querySelector(`[data-ozz-embed="${CSS.escape(targetId)}"]`);
 
             if (!embedDOM) return;
 
@@ -628,7 +700,7 @@
                             // Remove from existing list
                             existingFiles = existingFiles.filter(item => item.id !== trackedItem.id);
                             
-                            // Optional: Append a hidden input so your backend knows this existing ID/URL was deleted
+                            // Append a hidden input so backend knows this existing ID/URL was deleted
                             const deletedInput = document.createElement('input');
                             deletedInput.type = 'hidden';
                             deletedInput.name = `removed_${targetId}[]`;
@@ -669,10 +741,325 @@
     }
 
 
+    // ================================
+    // Conditionally render/update fields based on other field values
+    // ================================
+    /**
+     * Initialize conditional logic across the form or within a specific container scope
+     * @param {HTMLElement|Document} scope 
+     */
+    function initConditionalRendering(scope = document) {
+        // Find all fields with data-condition attributes within scope
+        const conditionedFields = scope.querySelectorAll 
+            ? scope.querySelectorAll('[data-condition]') 
+            : [];
+
+        if (conditionedFields.length === 0) return;
+
+        conditionedFields.forEach(targetEl => {
+            // Prevent duplicate initialization on the same field
+            if (targetEl.dataset.ozzConditionInited === 'true') return;
+            targetEl.dataset.ozzConditionInited = 'true';
+
+            let conditionData = null;
+            try {
+                conditionData = JSON.parse(targetEl.getAttribute('data-condition'));
+            } catch (e) {
+                console.error('Invalid JSON in data-condition on element:', targetEl, e);
+                return;
+            }
+            
+            if (!conditionData) return;
+
+            // Extract all target dependent field IDs or names to attach event listeners
+            const dependentFieldKeys = condition__extractDependencies(conditionData);
+
+            // Bind change and input listeners to dependencies
+            dependentFieldKeys.forEach(depKey => {
+                const sourceElements = condition__findSourceElements(depKey, targetEl);
+                sourceElements.forEach(sourceEl => {
+                    const eventType = (sourceEl.tagName === 'INPUT' && ['text', 'email', 'number', 'search'].includes(sourceEl.type)) 
+                        ? 'input' 
+                        : 'change';
+
+                    sourceEl.addEventListener(eventType, () => {
+                        condition__evaluateAndApply(targetEl, conditionData);
+                    });
+                });
+            });
+
+            // Initial evaluation on setup
+            condition__evaluateAndApply(targetEl, conditionData);
+        });
+    }
+
+    /**
+     * Recursively extract dependent field IDs/names from condition schema
+     */
+    function condition__extractDependencies(conditionData) {
+        let deps = [];
+
+        if (conditionData.target) {
+            deps.push(conditionData.target);
+        }
+
+        if (conditionData.conditions && Array.isArray(conditionData.conditions.rules)) {
+            conditionData.conditions.rules.forEach(rule => {
+                if (rule.target) deps.push(rule.target);
+                if (rule.field) deps.push(rule.field);
+                if (rule.conditions) {
+                    deps = deps.concat(condition__extractDependencies(rule));
+                }
+            });
+        }
+
+        return [...new Set(deps)];
+    }
+
+    /**
+     * Resolve source element: Scopes inside the same repeater row first, then falls back to global document
+     */
+    function condition__findSourceElements(key, targetEl) {
+        // If target is inside a repeater row, check inside that row first
+        const repeaterRow = targetEl.closest('.ozz-fm__repeat-fields');
+
+        if (repeaterRow) {
+            function rebuildName(targetElmName, str) {
+                const lastIndex = targetElmName.lastIndexOf("__");
+                let nm = lastIndex !== -1 ? targetElmName.slice(0, lastIndex) : targetElmName;
+                return nm + '__' + key;
+            }
+            const fieldName = rebuildName(targetEl.name, key);
+            console.log( fieldName );
+            
+            const rowElements = repeaterRow.querySelectorAll(`[name="${fieldName}"], [data-field-name="${fieldName}"]`);
+            if (rowElements.length > 0) return Array.from(rowElements);
+        }
+
+        // Global fallback if not found in current repeater scope
+        const globalElements = document.querySelectorAll(`[name="${key}"], [data-field-name="${key}"]`);
+        return Array.from(globalElements);
+    }
+
+    /**
+     * Reads current value of a source element (supports inputs, selects, custom filter dropdowns)
+     */
+    function condition__getFieldValue(key, targetEl) {
+        const sources = condition__findSourceElements(key, targetEl);
+        if (sources.length === 0) return null;
+
+        const sourceEl = sources[0];
+
+        // Check if source is a custom filter dropdown component
+        const filterWrapper = sourceEl.closest('[data-ozz-filter]');
+        if (filterWrapper) {
+            const hiddenField = filterWrapper.querySelector('[data-ozz-filter-hiddenfield]');
+            const isMultiple = filterWrapper.getAttribute('data-ozz-filter-multiple') === 'true';
+            
+            if (hiddenField && hiddenField.value) {
+                return isMultiple ? hiddenField.value.split(',') : hiddenField.value;
+            }
+            return isMultiple ? [] : '';
+        }
+
+        // Native Select Multiple
+        if (sourceEl.tagName === 'SELECT' && sourceEl.multiple) {
+            return Array.from(sourceEl.selectedOptions).map(opt => opt.value);
+        }
+
+        // Checkbox group or Radio
+        if (sourceEl.type === 'checkbox' || sourceEl.type === 'radio') {
+            const checked = sources.filter(el => el.checked);
+            if (sourceEl.type === 'radio') {
+                return checked.length > 0 ? checked[0].value : '';
+            }
+            return checked.map(el => el.value);
+        }
+
+        return sourceEl.value;
+    }
+
+    /**
+     * Evaluates condition logic (Supports single condition and nested AND/OR rules)
+     */
+    function condition__evaluate(conditionData, targetEl) {
+        // Case A: Multi-condition group structure
+        if (conditionData.conditions && Array.isArray(conditionData.conditions.rules)) {
+            const relation = (conditionData.conditions.relation || 'AND').toUpperCase();
+            const results = conditionData.conditions.rules.map(rule => {
+                if (rule.conditions) {
+                    return condition__evaluate({ conditions: rule }, targetEl);
+                }
+                return condition__evaluateSingleRule(rule, targetEl);
+            });
+
+            return relation === 'AND' 
+                ? results.every(Boolean) 
+                : results.some(Boolean);
+        }
+
+        // Case B: Single rule structure
+        return condition__evaluateSingleRule(conditionData, targetEl);
+    }
+
+    /**
+     * Single rule comparison logic
+     */
+    function condition__evaluateSingleRule(rule, targetEl) {
+        const targetKey = rule.target || rule.field;
+        if (!targetKey) return true;
+
+        const actualValue = condition__getFieldValue(targetKey, targetEl);
+        const op = rule.operator || rule.condition || 'equals';
+        const expectedValue = rule.value;
+
+        switch (op) {
+            case 'equals':
+            case '==':
+                return actualValue == expectedValue;
+
+            case 'not_equals':
+            case '!=':
+                return actualValue != expectedValue;
+
+            case 'contains':
+                if (Array.isArray(actualValue)) return actualValue.includes(expectedValue);
+                return String(actualValue).toLowerCase().includes(String(expectedValue).toLowerCase());
+
+            case 'not_contains':
+                if (Array.isArray(actualValue)) return !actualValue.includes(expectedValue);
+                return !String(actualValue).toLowerCase().includes(String(expectedValue).toLowerCase());
+
+            case 'not_empty':
+            case 'filled':
+                if (Array.isArray(actualValue)) return actualValue.length > 0;
+                return actualValue !== null && actualValue !== undefined && String(actualValue).trim() !== '';
+
+            case 'is_empty':
+            case 'blank':
+                if (Array.isArray(actualValue)) return actualValue.length === 0;
+                return actualValue === null || actualValue === undefined || String(actualValue).trim() === '';
+
+            case 'greater_than':
+            case '>':
+                return Number(actualValue) > Number(expectedValue);
+
+            case 'less_than':
+            case '<':
+                return Number(actualValue) < Number(expectedValue);
+            case 'greater_than_or_equal':
+            case '>=':
+                return Number(actualValue) >= Number(expectedValue);
+
+            case 'less_than_or_equal':
+            case '<=':
+                return Number(actualValue) <= Number(expectedValue);
+
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * Enables or disables all form inputs within a container.
+     */
+    function condition__toggleInputs(container, disable) {
+        const inputs = container.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            if (disable) {
+                input.setAttribute('disabled', 'disabled');
+            } else {
+                input.removeAttribute('disabled');
+            }
+        });
+    }
+
+    /**
+     * Executes appropriate visual/DOM action based on condition result
+     */
+    function condition__evaluateAndApply(targetEl, conditionData) {
+        const isMatched = condition__evaluate(conditionData, targetEl);
+        const action = conditionData.action || conditionData.condition;
+        const wrapper = targetEl.closest('.ozz-fm__field') || targetEl;
+
+        switch (action) {
+            case 'changeOptions':
+            case 'updateOptions':
+                const sourceKey = conditionData.target || (conditionData.conditions?.rules[0]?.field);
+                const parentValue = condition__getFieldValue(sourceKey, targetEl);
+                
+                let newOpts = [];
+                if (conditionData.options && parentValue && conditionData.options[parentValue]) {
+                    const rawOpts = conditionData.options[parentValue];
+                    
+                    // Normalize options array into [{ value: '...', text: '...' }]
+                    if (Array.isArray(rawOpts)) {
+                        newOpts = rawOpts.map(val => ({ value: val, text: val }));
+                    } else if (typeof rawOpts === 'object') {
+                        newOpts = Object.entries(rawOpts).map(([val, txt]) => ({ value: val, text: txt }));
+                    }
+                }
+
+                // If element is a custom Filter Dropdown
+                const filterContainer = targetEl.matches('[data-ozz-filter]') 
+                    ? targetEl 
+                    : targetEl.closest('[data-ozz-filter]');
+
+                if (filterContainer && typeof filterContainer.updateOptions === 'function') {
+                    filterContainer.updateOptions(newOpts);
+                } else if (targetEl.tagName === 'SELECT') {
+                    // Standard <select> element update
+                    targetEl.innerHTML = '';
+                    newOpts.forEach(opt => {
+                        const optionEl = document.createElement('option');
+                        optionEl.value = opt.value;
+                        optionEl.textContent = opt.text;
+                        targetEl.appendChild(optionEl);
+                    });
+                }
+                break;
+
+            case 'show':
+                wrapper.style.display = isMatched ? '' : 'none';
+                condition__toggleInputs(wrapper, !isMatched);
+                break;
+
+            case 'hide':
+                wrapper.style.display = isMatched ? 'none' : '';
+                condition__toggleInputs(wrapper, isMatched);
+                break;
+
+            case 'enable':
+                targetEl.removeAttribute('disabled');
+                break;
+
+            case 'disable':
+                if (isMatched) {
+                    targetEl.setAttribute('disabled', 'disabled');
+                } else {
+                    targetEl.removeAttribute('disabled');
+                }
+                break;
+        }
+    }
+
+
     // Init functions
     document.addEventListener('DOMContentLoaded', () => {
         initRepeater();
-        initiFilterDropdowns();
+        initFilterDropdowns();
         initFileUploadLivePreview();
+        initConditionalRendering();
+
+        // Global listeners for outside interactions
+        document.addEventListener('focusin', filter__handleOutsideInteraction);
+        document.addEventListener('click', filter__handleOutsideInteraction);
+
+        // Custom event binding for dynamically added repeater items
+        document.addEventListener('ozzRepeater:add', (e) => {
+            initFilterDropdowns(e.detail.item);
+            initFileUploadLivePreview(e.detail.item);
+            initConditionalRendering(e.detail.item);
+        });
     });
 })();
