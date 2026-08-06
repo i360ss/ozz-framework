@@ -126,8 +126,12 @@
             const templateItem = items[0];
             if (!wrapper || !templateItem) return;
 
-            const maxRepeat = Number(repeaterEl.getAttribute('data-ozz-repeat-max')) || 0;
-            if (maxRepeat && items.length >= maxRepeat) {
+            // Mirrors the original's exact semantics: attribute absent → no limit;
+            // attribute present (including "0") → numeric cap, so max="0" blocks immediately.
+            const maxAttr = repeaterEl.getAttribute('data-ozz-repeat-max');
+            const hasMax = maxAttr !== null && maxAttr !== '';
+            const maxRepeat = hasMax ? Number(maxAttr) : Infinity;
+            if (hasMax && items.length >= maxRepeat) {
                 trigger.setAttribute('disabled', 'true');
                 return;
             }
@@ -139,6 +143,13 @@
 
             wrapper.appendChild(newItem);
             this.renameFields(wrapper);
+
+            // Re-enable every delete button in this repeater now that there's
+            // more than one row (a lone row's delete button may have been
+            // disabled previously).
+            wrapper.querySelectorAll(`:scope > ${SEL.repeatFields} ${SEL.repeatRemove}`).forEach((btn) => {
+                btn.removeAttribute('disabled');
+            });
 
             Utils.dispatch(repeaterEl, 'ozzRepeater:add', {
                 item: newItem,
