@@ -36,6 +36,7 @@
     const SEL = {
         repeat: '.ozz-fm__repeat',
         repeatWrapper: '.ozz-fm__repeat-wrapper',
+        repeatTemplate: '.repeat-template',
         repeatFields: '.ozz-fm__repeat-fields',
         repeatHead: '.ozz-fm__repeat-head',
         repeatBody: '.ozz-fm__repeat-body',
@@ -123,8 +124,8 @@
 
             const wrapper = repeaterEl.querySelector(`:scope > ${SEL.repeatWrapper}`);
             const items = wrapper ? wrapper.querySelectorAll(`:scope > ${SEL.repeatFields}`) : [];
-            const templateItem = items[0];
-            if (!wrapper || !templateItem) return;
+
+            if (!wrapper) return;
 
             // Mirrors the original's exact semantics: attribute absent → no limit;
             // attribute present (including "0") → numeric cap, so max="0" blocks immediately.
@@ -137,19 +138,16 @@
             }
             trigger.removeAttribute('disabled');
 
+            const template = repeaterEl.querySelector(SEL.repeatTemplate);
+            const templateItem = template?.content.firstElementChild;
+            if (!templateItem || !templateItem) return;
+
             const newItem = templateItem.cloneNode(true);
             newItem.id = `rptf-${Utils.randomString(18)}`;
             this._resetClone(newItem, items.length);
 
             wrapper.appendChild(newItem);
             this.renameFields(wrapper);
-
-            // Re-enable every delete button in this repeater now that there's
-            // more than one row (a lone row's delete button may have been
-            // disabled previously).
-            wrapper.querySelectorAll(`:scope > ${SEL.repeatFields} ${SEL.repeatRemove}`).forEach((btn) => {
-                btn.removeAttribute('disabled');
-            });
 
             Utils.dispatch(repeaterEl, 'ozzRepeater:add', {
                 item: newItem,
@@ -183,7 +181,6 @@
             });
             newItem.querySelectorAll(SEL.filterDropdown).forEach((dd) => dd.classList.add('hidden'));
 
-            newItem.querySelector(SEL.repeatRemove)?.removeAttribute('disabled');
             newItem.querySelectorAll(SEL.mediaEmbedWrapper).forEach((mw) => { mw.innerHTML = ''; });
 
             const numberEl = newItem.querySelector(SEL.repeatNumber);
@@ -198,13 +195,6 @@
 
         deleteItem(trigger) {
             const wrapper = trigger.closest(SEL.repeatWrapper);
-            const items = wrapper ? wrapper.querySelectorAll(`:scope > ${SEL.repeatFields}`) : null;
-
-            if (!items || items.length <= 1) {
-                trigger.setAttribute('disabled', 'true');
-                return;
-            }
-
             const repeaterEl = wrapper.closest(SEL.repeat);
             trigger.closest(SEL.repeatFields)?.remove();
             this.renameFields(wrapper);
