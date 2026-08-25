@@ -261,6 +261,12 @@
                 const matched = Array.from(options).find((o) => o.getAttribute('data-value') === hiddenField.value);
                 if (matched) {
                     searchField.value = matched.textContent.trim();
+
+                    // Update repeater title if this filter field is first item inside a repeater
+                    const repeater = searchField.closest(SEL.repeatFields) ?? false;
+                    if (repeater && repeater.querySelector(SEL.titleSourceFields) === searchField) {
+                        repeater.querySelector(SEL.repeatTitle).textContent = matched.textContent.trim();
+                    }
                 } else if (allowCustom) {
                     searchField.value = hiddenField.value;
                 }
@@ -848,7 +854,7 @@
                 if (removed) {
                     const deletedInput = document.createElement('input');
                     deletedInput.type = 'hidden';
-                    deletedInput.name = `removed_${state.targetId}[]`;
+                    deletedInput.name = `removed_${state.targetId}`;
                     deletedInput.value = removed.url;
                     state.embedDOM.parentElement.appendChild(deletedInput);
                 }
@@ -907,26 +913,38 @@
             Filter._handleOutsideInteraction(e);
         });
 
-        document.addEventListener('input', (e) => {
-            // Repeater accordion title sync (only from that row's first text-like field).
+        // Repeater accordion title sync (only from that row's first text-like field).
+        const updateRepeaterLabel = (e) => {
             const fieldsEl = e.target.closest(SEL.repeatFields);
             if (fieldsEl) {
                 const head = fieldsEl.querySelector(`:scope > ${SEL.repeatHead}`);
                 const titleEl = head?.querySelector(SEL.repeatTitle);
                 if (titleEl) {
                     const firstField = fieldsEl.querySelector(SEL.titleSourceFields);
-                    if (firstField === e.target) titleEl.textContent = e.target.value;
+                    const filterFldWrap = firstField.closest('[data-ozz-filter]');
+                    const filterFld = filterFldWrap?.querySelector('[data-ozz-filter-hiddenfield]') ?? null;
+
+                    if (firstField === e.target) {
+                        titleEl.textContent = e.target.value;
+                    } else if (filterFld === e.target) {
+                        const valueTxt = filterFldWrap.querySelector(`li[data-value="${e.target.value}"]`);
+                        titleEl.textContent = valueTxt.textContent;
+                    }
                 }
             }
+        };
 
+        document.addEventListener('input', (e) => {
+            updateRepeaterLabel(e);
             if (e.target.matches?.(SEL.filterTextfield)) Filter._onSearchInput(e.target);
-
             Conditional._onSourceChange(e.target);
         });
 
         document.addEventListener('change', (e) => {
             if (e.target.matches?.(SEL.fileField)) FileUpload._onChange(e.target, e);
             Conditional._onSourceChange(e.target);
+
+            updateRepeaterLabel(e);
         });
 
         document.addEventListener('focusin', (e) => {
