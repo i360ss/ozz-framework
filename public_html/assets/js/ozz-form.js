@@ -314,6 +314,24 @@
             });
         },
 
+        _positionDropdown(field) {
+            const state = filterState.get(field);
+            if (!state || state.dropdown.classList.contains('hidden')) return;
+
+            const { searchField, dropdown } = state;
+            const inputRect = searchField.getBoundingClientRect();
+            const dropdownHeight = dropdown.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const spaceBelow = windowHeight - inputRect.bottom;
+
+            // Flip up if space below is too small AND there is more space above
+            if (spaceBelow < dropdownHeight && inputRect.top > dropdownHeight) {
+                dropdown.classList.add('is-top');
+            } else {
+                dropdown.classList.remove('is-top');
+            }
+        },
+
         toggleSelection(field, value, text) {
             const state = filterState.get(field);
             if (!state) return;
@@ -358,6 +376,8 @@
             Array.from(state.dropdown.getElementsByTagName('li')).forEach((opt) => {
                 opt.style.display = opt.textContent.toLowerCase().includes(filterText) ? '' : 'none';
             });
+
+            this._positionDropdown(field);
         },
 
         _onOptionClick(li) {
@@ -378,6 +398,7 @@
                 state.searchField.value = text;
                 this._setHiddenValue(state.hiddenField, value);
                 dropdown.classList.add('hidden');
+                dropdown.classList.remove('is-top');
             }
         },
 
@@ -410,6 +431,7 @@
                     this._resetOptionFilter(dropdown);
                 }
                 dropdown.classList.add('hidden');
+                dropdown.classList.remove('is-top');
             } else {
                 if (!allowCustom) {
                     const matched = Array.from(dropdown.getElementsByTagName('li')).find(
@@ -424,6 +446,7 @@
                     }
                 }
                 dropdown.classList.add('hidden');
+                dropdown.classList.remove('is-top');
             }
         },
 
@@ -437,6 +460,7 @@
                     if (!state.dropdown.classList.contains('hidden')) this._settle(field);
                 } else if (e.target === state.searchField) {
                     state.dropdown.classList.remove('hidden');
+                    this._positionDropdown(field);
                 }
             });
         },
@@ -475,6 +499,8 @@
                 );
                 if (matched) searchField.value = matched.textContent.trim();
             }
+
+            this._positionDropdown(field);
         },
 
         getValue(field) {
