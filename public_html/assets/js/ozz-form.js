@@ -138,7 +138,7 @@
             }
             trigger.removeAttribute('disabled');
 
-            const template = repeaterEl.querySelector(SEL.repeatTemplate);
+            const template = repeaterEl.querySelector(`:scope > ${SEL.repeatWrapper} > ${SEL.repeatTemplate}`);
             const templateItem = template?.content.firstElementChild;
             if (!templateItem || !templateItem) return;
 
@@ -195,16 +195,32 @@
 
         deleteItem(trigger) {
             const wrapper = trigger.closest(SEL.repeatWrapper);
-            const repeaterEl = wrapper.closest(SEL.repeat);
-            trigger.closest(SEL.repeatFields)?.remove();
-            this.renameFields(wrapper);
+            const repeaterEl = wrapper?.closest(SEL.repeat);
+            const item = trigger.closest(SEL.repeatFields);
 
-            if (repeaterEl) {
-                Utils.dispatch(repeaterEl, 'ozzRepeater:delete', {
-                    repeater: repeaterEl,
-                    remainingCount: wrapper.querySelectorAll(`:scope > ${SEL.repeatFields}`).length
-                });
-            }
+            if (!wrapper || !item) return;
+
+            item.classList.add('removing');
+            let isRemoved = false;
+
+            const removeItem = () => {
+                if (isRemoved) return;
+                isRemoved = true;
+
+                item.remove();
+                this.renameFields(wrapper);
+                if (repeaterEl) {
+                    Utils.dispatch(repeaterEl, 'ozzRepeater:delete', {
+                        repeater: repeaterEl,
+                        remainingCount: wrapper.querySelectorAll(
+                            `:scope > ${SEL.repeatFields}`
+                        ).length
+                    });
+                }
+            };
+
+            item.addEventListener('transitionend', removeItem, { once: true });
+            setTimeout(removeItem, 300);
         }
     };
 
