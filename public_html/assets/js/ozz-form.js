@@ -58,7 +58,8 @@
 
         conditionField: '[data-condition]',
         namableFields: 'input, textarea, button, progress, meter, select, datalist, [data-ozz-wyg]',
-        titleSourceFields: 'input[type="text"], input[type="email"], textarea, select'
+        titleSourceFields: 'input[type="text"], input[type="email"], textarea, select',
+        fieldError: '.field-error',
     };
 
     /* =====================================================================
@@ -158,39 +159,63 @@
 
         /** Strip every trace of the source row's state out of a freshly cloned item. */
         _resetClone(newItem, newIndex) {
+            // Force re-hydration of filters/conditions on the clone.
             newItem.querySelectorAll(SEL.namableFields).forEach((elm) => {
-                if (elm.tagName === 'INPUT' || elm.tagName === 'TEXTAREA') {
-                    elm.value = '';
-                } else if (elm.tagName === 'SELECT') {
-                    elm.selectedIndex = 0;
-                }
                 elm.removeAttribute('data-ozz-condition-inited');
                 delete elm.dataset.ozzFilterInited;
-                elm.removeAttribute('data-file-value'); // don't carry over the source row's existing-files
+                elm.removeAttribute('data-file-value');
+                elm.classList.remove('error');
             });
 
-            // Force full re-hydration of filters/conditions on the clone.
-            newItem.querySelectorAll(SEL.filter).forEach((f) => delete f.dataset.ozzFilterInited);
-            newItem.querySelectorAll(SEL.conditionField).forEach((f) => delete f.dataset.ozzConditionInited);
+            newItem.querySelectorAll(SEL.fieldError).forEach(elm => {
+                elm.remove();
+            });
 
-            // Clear leftover visual selection state from cloned filter dropdowns/tags.
-            newItem.querySelectorAll(SEL.filterTagsContainer).forEach((tc) => { tc.innerHTML = ''; });
+            newItem.querySelectorAll(SEL.filter).forEach((f) => {
+                delete f.dataset.ozzFilterInited;
+            });
+
+            newItem.querySelectorAll(SEL.conditionField).forEach((f) => {
+                delete f.dataset.ozzConditionInited;
+            });
+
+            // Clear visual filter state.
+            newItem.querySelectorAll(SEL.filterTagsContainer).forEach((tc) => {
+                tc.innerHTML = '';
+            });
+
             newItem.querySelectorAll(`${SEL.filterDropdown} li`).forEach((li) => {
                 li.classList.remove('selected');
                 li.style.display = '';
             });
-            newItem.querySelectorAll(SEL.filterDropdown).forEach((dd) => dd.classList.add('hidden'));
 
-            newItem.querySelectorAll(SEL.mediaEmbedWrapper).forEach((mw) => { mw.innerHTML = ''; });
+            newItem.querySelectorAll(SEL.filterDropdown).forEach((dd) => {
+                dd.classList.add('hidden');
+            });
 
+            // Clear media embeds.
+            newItem.querySelectorAll(SEL.mediaEmbedWrapper).forEach((mw) => {
+                mw.innerHTML = '';
+            });
+
+            // Update item number.
             const numberEl = newItem.querySelector(SEL.repeatNumber);
-            if (numberEl) numberEl.textContent = String(newIndex + 1);
+            if (numberEl) {
+                numberEl.textContent = String(newIndex + 1);
+            }
 
+            // Clear title.
             const titleEl = newItem.querySelector(SEL.repeatTitle);
-            if (titleEl) titleEl.textContent = '';
+            if (titleEl) {
+                titleEl.textContent = '';
+            }
 
+            // Ensure new item is expanded.
             newItem.querySelector(SEL.repeatHead)?.classList.remove('close');
             newItem.querySelector(SEL.repeatBody)?.classList.remove('close');
+
+            // Make delete button available.
+            newItem.querySelector(SEL.repeatRemove)?.removeAttribute('disabled');
         },
 
         deleteItem(trigger) {
