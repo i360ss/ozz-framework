@@ -2,7 +2,6 @@
 use Ozz\Core\AppInit;
 use Ozz\Core\Middleware;
 use Ozz\Core\DebugBar;
-use Ozz\Core\Request;
 use Ozz\Core\ExceptionHandler;
 use Ozz\Core\Cache;
 
