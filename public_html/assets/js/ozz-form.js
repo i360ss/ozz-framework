@@ -232,16 +232,18 @@
                 if (isRemoved) return;
                 isRemoved = true;
 
-                item.remove();
-                this.renameFields(wrapper);
                 if (repeaterEl) {
                     Utils.dispatch(repeaterEl, 'ozzRepeater:delete', {
+                        deletedItem: item,
                         repeater: repeaterEl,
                         remainingCount: wrapper.querySelectorAll(
                             `:scope > ${SEL.repeatFields}`
-                        ).length
+                        ).length - 1
                     });
                 }
+
+                item.remove();
+                this.renameFields(wrapper);
             };
 
             item.addEventListener('transitionend', removeItem, { once: true });
