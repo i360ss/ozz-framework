@@ -262,6 +262,17 @@
             fields.forEach((field) => this._hydrate(field));
         },
 
+        reinit(scope = document) {
+            const fields = scope.matches?.(SEL.filter)
+                ? [scope]
+                : Array.from(scope.querySelectorAll(SEL.filter));
+
+            fields.forEach(field => {
+                delete field.dataset.ozzFilterInited;
+                this._hydrate(field);
+            });
+        },
+
         _hydrate(field) {
             if (field.dataset.ozzFilterInited === 'true') return;
             field.dataset.ozzFilterInited = 'true';
