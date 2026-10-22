@@ -1050,13 +1050,13 @@
         FileUpload
     };
 
-    // Support HTMX - Standard HTMX Swaps (AJAX responses)
-    document.addEventListener('htmx:afterSettle', function (evt) {
+    // HTMX 4 support
+    document.addEventListener('htmx:after:settle', function (evt) {
         initAll(evt.detail.elt);
     });
 
-    // HTMX Back / Forward Navigation (History Cache Restoration)
-    document.addEventListener('htmx:historyRestore', function (evt) {
+    // HTMX 4 event syntax + only triggers if hx-history-cache extension is enabled
+    document.addEventListener('htmx:history:restore', function (evt) {
         document.querySelectorAll('[data-ozz-condition-inited]').forEach(el => {
             delete el.dataset.ozzConditionInited;
         });
@@ -1067,7 +1067,7 @@
         initAll(evt.detail.elt);
     });
 
-    // Native Browser BF Cache Restoration (Page restored from memory)
+    // Native Browser BF Cache Restoration
     window.addEventListener('pageshow', function (event) {
         if (event.persisted) {
             initAll(document.body);
