@@ -1049,4 +1049,28 @@
         Conditional,
         FileUpload
     };
+
+    // Support HTMX - Standard HTMX Swaps (AJAX responses)
+    document.addEventListener('htmx:afterSettle', function (evt) {
+        initAll(evt.detail.elt);
+    });
+
+    // HTMX Back / Forward Navigation (History Cache Restoration)
+    document.addEventListener('htmx:historyRestore', function (evt) {
+        document.querySelectorAll('[data-ozz-condition-inited]').forEach(el => {
+            delete el.dataset.ozzConditionInited;
+        });
+        document.querySelectorAll('[data-ozz-filter-inited]').forEach(el => {
+            delete el.dataset.ozzFilterInited;
+        });
+
+        initAll(evt.detail.elt);
+    });
+
+    // Native Browser BF Cache Restoration (Page restored from memory)
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            initAll(document.body);
+        }
+    });
 })(window, document);
